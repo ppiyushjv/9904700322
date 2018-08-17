@@ -1,0 +1,94 @@
+﻿@model MOSSWORKLOG.Areas.ChangeManagement.Models.TypeViewModel
+
+@{
+    Layout = "~/Areas/ChangeManagement/Views/Shared/_Layout.cshtml";
+}
+
+<!--Start Page Title-->
+<div class="page-title-box">
+    <h4 class="page-title">Type</h4>
+    <ol class="breadcrumb">
+        <li>
+            <a href="@Url.Action("Index", "Home", new { area = "" })">Home</a>
+        </li>
+        <li>
+            <a href="@Url.Action("Index", "ChangeManagement", new { area = "ChangeManagement" })">Change Management</a>
+        </li>
+        <li class="active">
+            Type
+        </li>
+    </ol>
+    <div class="clearfix"></div>
+</div>
+<!--End Page Title-->
+
+<a class="aAddType btn btn-info" data-toggle="modal" href="#" accesskey="a">
+    <i class="fa fa-plus"></i> Add Type
+</a>
+    
+<!--Start row-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="white-box">
+            <div class="table-responsive">
+                <table id="tblDatatable" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th> Name </th>
+                            <th style="width:10%">Action </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var t in Model.Types)
+                        {
+                            <tr>
+                                <td> @t.Name </td>
+                                <td style="width:10%">
+                                    <a data-id=@t.Id class="aEditType btn btn-primary" title="Edit Type">
+                                        <span class="fa fa-edit"></span>
+                                    </a>
+                                    <a data-id=@t.Id class="aRemoveType btn btn-danger" title="Delete Type" data-placement="left" data-toggle="confirmation" data-title="Remove?, Sure??">
+                                        <span class="fa fa-remove"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End row-->
+
+<div id="space"> </div>
+
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $(".aAddType").click(function () {
+                var url = window.g_baseUrl + "ChangeManagement/ChangeManagement/ViewType/";
+                $('#space').load(url, function () {
+                    $('#modelType').modal('show');
+                });
+            });
+           
+            $(".aRemoveType").click(function () {
+                var url = window.g_baseUrl + "ChangeManagement/ChangeManagement/DeleteType/";
+                url = url + $(this).data("id");
+                location.href = url;
+            });
+
+            $(".aEditType").click(function () {
+                var url = window.g_baseUrl + "ChangeManagement/ChangeManagement/ViewType/";
+                url = url + $(this).data("id");
+                $('#space').load(url, function () {
+                    $('#modelType').modal('show');
+                });
+            });
+        });
+    </script>
+}

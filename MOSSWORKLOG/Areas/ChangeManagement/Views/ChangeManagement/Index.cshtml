@@ -1,0 +1,97 @@
+﻿@model MOSSWORKLOG.Areas.ChangeManagement.Models.ChangeManagementViewModel
+
+@{
+    Layout = "~/Areas/ChangeManagement/Views/Shared/_Layout.cshtml";
+}
+
+                    
+<!--Start Page Title-->
+<div class="page-title-box">
+    <h4 class="page-title">Change Management</h4>
+    <ol class="breadcrumb">
+        <li>
+            <a href="@Url.Action("Index", "Home", new { area = "" })">Home</a>
+        </li>
+        <li class="active">
+            Change Management
+        </li>
+    </ol>
+    <div class="clearfix"></div>
+</div>
+<!--End Page Title-->
+
+<a class="aAddTicket btn btn-info" data-toggle="modal" accesskey="a" href="#">
+    <i class="fa fa-plus"></i> Add Ticket
+</a>
+    
+<!--Start row-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="white-box">
+            <div class="table-responsive">
+                <table id="tblDatatable" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th> Title </th>
+                            <th> Client Name</th>
+                            <th> Project Name</th>
+                            <th> Status</th>
+                            <th> Assign To</th>
+                            <th style="width:10%">Action </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var c in Model.ChangeManagementModels)
+                        {
+                            <tr>
+                                <td>@c.Title</td>
+                                <td>@c.Client.ClientName</td>
+                                <td>@c.Project.ProjectName</td>
+                                <td>@c.Status.ToString()</td>
+                                <td>@c.AssingUserName.FullName</td>
+                                <td style="width:10%">
+                                    <a data-id=@c.Id class="aEditTicket btn btn-primary" title="Edit client">
+                                        <span class="fa fa-edit"></span>
+                                    </a>
+                                    <a data-id=@c.Id class="aRemoveTicket btn btn-danger" title="Delete Ticket" data-placement="top" data-toggle="confirmation" data-title="Remove?, Sure??">
+                                        <span class="fa fa-remove"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<!--End row-->
+
+<div id="space"> </div>
+
+@section Scripts {
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $(".aAddTicket").click(function () {
+            var url = window.g_baseUrl + "ChangeManagement/ChangeManagement/AddTicket/";
+            location.href = url;
+        });
+
+        $(".aEditTicket").click(function () {
+            var url = window.g_baseUrl + "ChangeManagement/ChangeManagement/AddTicket/";
+            url = url + $(this).data("id");
+            location.href = url;
+        });
+
+        $(".aRemoveTicket").click(function () {
+            var url = window.g_baseUrl + "ChangeManagement/ChangeManagement/DeleteTicket/";
+            url = url + $(this).data("id");
+            location.href = url;
+        });
+
+    });
+</script>
+}

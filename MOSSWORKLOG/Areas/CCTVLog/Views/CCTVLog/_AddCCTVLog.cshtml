@@ -1,0 +1,76 @@
+﻿@model MOSSWORKLOG.Areas.Client.Models.ClientModel
+@{
+    Layout = null;
+}
+
+<!-- modal start -->
+<div class="modal fade" id="modelClient" role="dialog" aria-hidden="true">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>    
+                @if (!Model.IsEdit)
+                {
+                    <h4 class="modal-title">Add Client</h4>
+                }
+                else
+                {
+                    <h4 class="modal-title">Edit Client</h4>
+                }
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("CreateClient", "Client", new { area = "Client" }, FormMethod.Post, new { @role = "form", @id = "frmCreateClient", @class = "form-horizontal js-validation-bootstrap" }))
+                {
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        @Html.HiddenFor(m => m.ClientId)
+                        @Html.HiddenFor(m => m.IsEdit)
+
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.ShortName, htmlAttributes: new { @class = "col-md-3 control-label"   })
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(m => m.ShortName, "", new { @class = "form-control", @type = "text", @autofocus = "autofocus", @style = "width:80%;" })
+                                    @Html.ValidationMessageFor(m => m.ShortName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.ClientName, htmlAttributes: new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(m => m.ClientName, "", new { @class = "form-control", @type = "text", @style = "width:80%;" })
+                                    @Html.ValidationMessageFor(m => m.ClientName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Email, htmlAttributes: new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(m => m.Email, "", new { @class = "form-control", @type = "text", @style = "width:80%;" })
+                                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Contact, htmlAttributes: new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(m => m.Contact, "", new { @class = "form-control", @type = "text", @style = "width:80%;" })
+                                    @Html.ValidationMessageFor(m => m.Contact, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    }
+            </div>
+
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
+                <button class="btn btn-primary" type="submit"  id="btnCreateClient" form="frmCreateClient">Save changes</button>
+            </div>
+
+        </div>
+    </div>
+</div>

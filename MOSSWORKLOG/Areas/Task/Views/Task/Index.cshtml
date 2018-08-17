@@ -1,0 +1,163 @@
+﻿@model MOSSWORKLOG.Areas.Task.Models.TaskViewModel
+
+@section Styles {
+    <link href="~/assets/plugins/select2/css/select2.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/plugins/jquery-multi-select/css/multi-select.css" rel="stylesheet" type="text/css" />
+}
+
+@{
+    Layout = "~/Areas/Task/Views/Shared/_Layout.cshtml";
+}
+                    
+    <!--Start Page Title-->
+    <div class="page-title-box">
+        <h4 class="page-title">Task</h4>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new { area = "" })">Home</a>
+            </li>
+
+            <li class="active">
+                Task
+            </li>
+        </ol>
+        <div class="clearfix"></div>
+    </div>
+    <!--End Page Title-->
+
+    <a class="aAddTask btn btn-info" data-toggle="modal" href="#">
+        <i class="fa fa-plus"></i> Add Task
+    </a>
+    
+    <!--Start row-->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="white-box">
+                <div class="table-responsive">
+                    <table id="tblDatatable" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th> Project Name</th>
+                                <th> Task Name</th>
+                                <th> Description	</th>
+                                <th> Created On	</th>
+                                <th style="width:13%"> Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var task in Model.Tasks)
+                            {
+                                <tr>
+                                    <td >@task.ProjectName</td>
+                                    <td >@task.TaskName</td>
+                                    <td> @task.TaskDescription</td>
+                                    <td> @task.CreatedOn.ToString()</td>
+                                    <td style="width:13%">
+                                        <a data-id=@task.TaskId class="aEditTask btn btn-primary"  title="Edit Task">
+                                            <span class="fa fa-edit"></span>
+                                        </a>
+                                        <a data-id=@task.TaskId class="aRemoveTask btn btn-danger" data-placement="top" data-toggle="confirmation" data-title="Remove?, Sure??">
+                                            <span class="fa fa-remove"></span>
+                                        </a>
+                                        <a data-id=@task.TaskId class="aAddTaskUser btn btn-purple"  title="Assign User rights">
+                                            <span class="fa fa-user-secret"></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End row-->
+
+
+<div id="space"> </div>
+
+@section Scripts {
+    <script src="~/assets/plugins/select2/js/select2.js"></script>
+    <script src="~/assets/plugins/jquery-multi-select/js/jquery.multi-select.js"></script>
+    <script src="~/assets/plugins/jquery-multi-select/js/jquery.quicksearch.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+               
+            $(document).on('change', '#TaskFrequency', function () {
+                taskTickChange()
+            });
+
+            $(".aAddTaskUser").click(function () {
+                var url = window.g_baseUrl + "Task/Task/ViewTaskUser/";
+                url = url + $(this).data("id");
+                $('#space').load(url, function () {
+                    $('#modelTaskUser').modal('show');
+                    $('#UserSelected').multiSelect({
+                        selectableOptgroup: true
+                    });
+                });
+            });
+
+
+            $(".select2").select2();
+
+            $(".aAddTask").click(function () {
+                var url = window.g_baseUrl + "Task/Task/ViewTask/";
+                $('#space').load(url, function () {
+                    $('#modelTask').modal('show');
+                    $('.default-date-picker').datepicker({
+                        format: 'dd-mm-yyyy',
+                        autoclose: true
+                    });
+                    $(".select2").select2({ dropdownParent: $('#modelTask'), });
+                    taskTickChange()
+                });
+            });
+
+           
+            $(".aRemoveTask").click(function () {
+                var url = window.g_baseUrl + "Task/Task/DeleteTask/";
+                url = url + $(this).data("id");
+                location.href = url;
+            });
+
+            $(".aEditTask").click(function () {
+                var url = window.g_baseUrl + "Task/Task/ViewTask/";
+                url = url + $(this).data("id");
+                $('#space').load(url, function () {
+                    $('#modelTask').modal('show');
+                    $('.default-date-picker').datepicker({
+                        format: 'dd-mm-yyyy',
+                        autoclose: true
+                    });
+                    $(".select2").select2({ dropdownParent: $('#modelTask'), });
+                    taskTickChange()
+                });
+            });
+
+            function taskTickChange()
+            {
+                var taskFrequency = $("#TaskFrequency option:selected").val();
+
+                switch(taskFrequency) {
+                    case "OneTime":
+                        $("#tickmonthly").hide();
+                        $("#tickweekly").hide();
+                        break;
+                    case "Daily":
+                        $("#tickmonthly").hide();
+                        $("#tickweekly").hide();
+                        break;
+                    case "Weekly":
+                        $("#tickmonthly").hide();
+                        $("#tickweekly").show();
+                        break;
+                    case "Monthly":
+                        $("#tickmonthly").show();
+                        $("#tickweekly").hide();
+                        break;
+                }
+            };
+        });
+    </script>
+}

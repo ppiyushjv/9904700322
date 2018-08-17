@@ -1,0 +1,105 @@
+﻿@{
+    ViewBag.Title = "Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section styles{
+    @RenderSection("styles", required: false)
+    <link href="~/assets/plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
+}
+
+<div class="content-main container">
+
+    @RenderBody()
+
+</div>
+
+@section Scripts {
+    <script src="~/assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var start = moment();
+            var end = moment();
+            
+            $('#reportrange').daterangepicker({
+                startDate: start,
+                endDate: end,
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 15 Days': [moment().subtract(15, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                }
+            }, cb);
+
+            @RenderSection("scripts", required: false)
+
+            cb(start, end)
+
+            function cb(start, end) {
+                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+
+                var tempUrl = Url + "?startDate=" + start.format("DD/MM/YYYY") + "&endDate=" + end.format("DD/MM/YYYY")
+
+                $('#tblReport').dataTable({
+                    destroy: true,
+                    columns: [
+                        { "data": "ProjectName", "orderable": true },
+                        { "data": "TaskName", "orderable": true },
+                        { "data": "StartTime", "orderable": true },
+                        { "data": "EndTime", "orderable": true },
+                        { "data": "Duration", "orderable": true },
+                        { "data": "Unit", "orderable": true },
+                        { "data": "AverageTime", "orderable": true },
+                    ],
+                    language: {
+                        "aria": {
+                            "sortAscending": ": activate to sort column ascending",
+                            "sortDescending": ": activate to sort column descending"
+                        },
+                        "emptyTable": "No data available in table",
+                        "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                        "infoEmpty": "No entries found",
+                        "infoFiltered": "(filtered1 from _MAX_ total entries)",
+                        "lengthMenu": "_MENU_ entries",
+                        "search": "Search:",
+                        "zeroRecords": "No matching records found"
+                    },
+                    ajax: {
+                        type: "GET",
+                        contentType: "application/json",
+                        url: tempUrl,
+                        dataSrc: function (results) {
+                            return results.data;
+                        },
+                    },
+
+                    buttons: [
+                        { extend: 'pdf', className: 'btn btn-inverse round' },
+                        { extend: 'excel', className: 'btn btn-inverse round' },
+                        { extend: 'print', className: 'btn btn-inverse round' }
+                    ],
+
+                    // setup responsive extension: http://datatables.net/extensions/responsive/
+                    responsive: true,
+                    "order": [
+                        [0, 'asc']
+                    ],
+                    "lengthMenu": [
+                        [5, 10, 15, 20, -1],
+                        [5, 10, 15, 20, "All"] // change per page values here
+                    ],
+                    "pageLength": 10,
+                    dom: "<'row'<'col-md-6'f><'col-md-6'B>r><'table-scrollable't><'row'<'col-md-2'l><'col-md-5'i><'col-md-5'p>>", // horizobtal scrollable datatable
+                    //"dom": "<'row' <'col-md-12'T>><'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r>t<'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>"
+                });
+            }
+        });
+    </script>
+    
+}

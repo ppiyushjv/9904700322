@@ -1,0 +1,148 @@
+﻿@model MOSSWORKLOG.Areas.Document.Models.DocumentViewModel
+
+@{
+    Layout = "~/Areas/Document/Views/Shared/_Layout.cshtml";
+}
+                    
+@section Styles {
+    <link href="~/assets/plugins/select2/css/select2.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/plugins/jquery-multi-select/css/multi-select.css" rel="stylesheet" type="text/css" />
+}
+
+
+
+
+<!--Start Page Title-->
+<div class="page-title-box">
+    <h4 class="page-title">Documents</h4>
+    <ol class="breadcrumb">
+        <li>
+            <a href="@Url.Action("Index", "Home", new { area = "" })">Home</a>
+        </li>
+
+        <li class="active">
+            Documents
+        </li>
+    </ol>
+    <div class="clearfix"></div>
+</div>
+<!--End Page Title-->
+
+<a class="aAddDocument btn btn-info" data-toggle="modal" href="#" accesskey="a">
+    <i class="fa fa-plus"></i> Add Document
+</a>
+    
+<!--Start row-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="white-box">
+            <div class="table-responsive">
+                <table id="tblDatatable" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th> Document Name</th>
+                            <th> Keyword </th>
+                            <th style="width:10%"> Category Name </th>
+                            <th style="width:10%"> SubCategotry Name</th>
+                            <th style="width:10%"> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var doc in Model.Documents)
+                        {
+                            <tr>
+                                <td> @doc.Name </td>
+                                <td> @doc.KeywordList  </td>
+                                <td style="width:10%"> @doc.CategoryName </td>
+                                <td style="width:10%"> @doc.SubCategoryName </td>
+                                <td style="width:10%">
+                                    <a data-id=@doc.Id class="aEditDocument btn btn-primary" title="Edit Document">
+                                        <span class="fa fa-edit"></span>
+                                    </a>
+                                    <a data-id=@doc.Id class="aRemoveDocument btn btn-danger" title="Delete Document" data-placement="left" data-toggle="confirmation" data-title="Remove?, Sure??">
+                                        <span class="fa fa-remove"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End row-->
+
+<div id="space"> </div>
+
+
+@section Scripts {
+<script src="~/assets/plugins/select2/js/select2.js"></script>
+<script src="~/assets/plugins/jquery-multi-select/js/jquery.multi-select.js"></script>
+<script src="~/assets/plugins/jquery-multi-select/js/jquery.quicksearch.js"></script>
+<script type="text/javascript">
+
+
+
+    $(document).on('change', '#CategoryId', function () {
+        var categoryId = $("#CategoryId option:selected").val();
+        $.ajax({
+            url: window.g_baseUrl + "Document/Document/GetSubCategories/",
+            data: "{ 'categoryId': '" + categoryId + "'}",
+            dataType: "json",
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $('#SubCategoryId').find('option').remove();
+                var options = $('#SubCategoryId').get(0).options;
+                $.each(data, function (key, value) {
+                    options[options.length] = new Option(value.value, value.key);
+                });
+                DisplayUsedFor()
+            },
+            error: function (response) {
+                alert(response.responseText);
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            }
+        });
+
+    });
+
+    $(document).on('change', '#UploadFile', function () {
+        var filePath = $(this).val();
+        $('#DocumentPath').val(window.getSelection().toString() + filePath.substr(11));
+    });
+
+    $(document).ready(function () {
+
+        $(".aAddDocument").click(function () {
+            var url = window.g_baseUrl + "Document/Document/ViewDocument/";
+            $('#space').load(url, function () {
+                $('#modelDocument').modal('show');
+                //$(".select2").select2();
+                $('.select2').each(function () {
+                    $(this).val(null)
+                });
+            });
+        });
+           
+        $(".aRemoveDocument").click(function () {
+            var url = window.g_baseUrl + "Document/Document/DeleteDocument/";
+            url = url + $(this).data("id");
+            location.href = url;
+        });
+
+        $(".aEditDocument").click(function () {
+            var url = window.g_baseUrl + "Document/Document/ViewDocument/";
+            url = url + $(this).data("id");
+            $('#space').load(url, function () {
+                $('#modelDocument').modal('show');
+                $(".select2").select2();
+            });
+        });
+
+    });
+</script>
+}

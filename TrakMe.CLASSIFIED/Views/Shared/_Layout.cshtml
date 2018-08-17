@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>@ViewBag.Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Trak Me</title>
+    <link href="~/Assets/tools/style.css" rel="stylesheet" type="text/css" />
+    <link href="~/Assets/plugins/toast-notification/toastr.min.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="~/Assets/tools/jquery.min.js"></script>
+    <script type="text/javascript" src="~/Assets/tools/cufon-yui.js"></script>
+    <script type="text/javascript" src="~/Assets/tools/Bebas_400.font.js"></script>
+    <script type="text/javascript" src="~/Assets/tools/Bell_Gothic_Std_300.font.js"></script>
+    <script type="text/javascript" src="~/Assets/plugins/toast-notification/toastr.min.js"></script>
+    <script type="text/javascript">
+        Cufon.replace('a.logo', { fontFamily: 'Bebas' });
+        Cufon.replace('a.logo span', { fontFamily: 'Bell Gothic Std' });
+    </script>
+</head>
+
+<body>
+    <div class="main_container">
+        @RenderBody()
+    </div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+﻿@model MOSSWORKLOG.Areas.Asset.Models.VenderViewModel
+
+@{
+    Layout = "~/Areas/Asset/Views/Shared/_Layout.cshtml";
+}
+
+<!--Start Page Title-->
+<div class="page-title-box">
+    <h4 class="page-title">Vendors</h4>
+    <ol class="breadcrumb">
+        <li>
+            <a href="@Url.Action("Index", "Home", new { area = "" })">Home</a>
+        </li>
+        <li class="active">Vendors</li>
+    </ol>
+    <div class="clearfix"></div>
+</div>
+<!--End Page Title-->
+
+<a class="aAddVender btn btn-info" data-toggle="modal" href="#">
+    <i class="fa fa-plus"></i> Add Vendor
+</a>
+
+<!--Start row-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="white-box">
+            <div class="table-responsive">
+                <table id="tblDatatable" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th> Vendor Name</th>
+                            <th style="width:13%"> Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var vender in Model.Venders)
+                        {
+                            <tr>
+                                <td>@vender.VenderName</td>
+                                <td style="width:13%">
+                                    <a data-id=@vender.VenderId class="aEditVender btn btn-primary" title="Edit vender">
+                                        <span class="fa fa-edit"></span>
+                                    </a>
+                                    <a data-id=@vender.VenderId class="aRemoveVender btn btn-danger" title="Delete vender" data-placement="top" data-toggle="confirmation" data-title="Remove?, Sure??">
+                                        <span class="fa fa-remove"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End row-->
+
+<div id="space"> </div>
+
+@section Scripts {
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $(".aAddVender").click(function () {
+            var url = window.g_baseUrl + "Asset/Venders/ViewVender/";
+            $('#space').load(url, function () {
+                $('#modelVender').modal('show');
+            });
+        });
+
+        $(".aRemoveVender").click(function () {
+            var url = window.g_baseUrl + "Asset/Venders/DeleteVender/";
+            url = url + $(this).data("id");
+            location.href = url;
+        });
+
+        $(".aEditVender").click(function () {
+            var url = window.g_baseUrl + "Asset/Venders/ViewVender/";
+            url = url + $(this).data("id");
+            $('#space').load(url, function () {
+                $('#modelVender').modal('show');
+            });
+        });
+    });
+</script>
+}

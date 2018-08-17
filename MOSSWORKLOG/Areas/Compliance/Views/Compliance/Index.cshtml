@@ -1,0 +1,138 @@
+﻿@model MOSSWORKLOG.Areas.Compliance.Models.ComplianceViewModel
+
+
+@{
+    Layout = "~/Areas/Compliance/Views/Shared/_Layout.cshtml";
+}
+                    
+<!--Start Page Title-->
+<div class="page-title-box">
+    <h4 class="page-title">COMPLIANCE</h4>
+    <ol class="breadcrumb">
+        <li>
+            <a href="@Url.Action("Index", "Home", new { area = "" })">Home</a>
+        </li>
+
+        <li class="active">
+            Compliance
+        </li>
+    </ol>
+    <div class="clearfix"></div>
+</div>
+<!--End Page Title-->
+
+<a class="aAddCompliance btn btn-info" data-toggle="modal" href="#" accesskey="a">
+    <i class="fa fa-plus"></i> Add Compliance
+</a>
+    
+<!--Start row-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="white-box">
+            <div class="table-responsive">
+                <table id="tblDatatable" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th> Compliance#</th>
+                            <th> Date</th>
+                            <th> Name</th>
+                            <th> Contact</th>
+                            <th> Status</th>
+                            <th style="width:13%"> Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Compliances != null)
+                        {
+                            foreach (var compliance in Model.Compliances)
+                            {
+                            <tr>
+                                <td> @compliance.Id.ToString("D6") </td>
+                                <td> @compliance.ComplianceDate.ToString("dd/MM/yyyy") </td>
+                                <td> @compliance.ContactName </td>
+                                <td> @compliance.ContactPhone </td>
+                                <td> @compliance.Status.ToString() </td>
+                                <td style="width:13%">
+                                    <a data-id=@compliance.Id class="aEditCompliance btn btn-primary" title="Edit Compliance">
+                                        <span class="fa fa-edit"></span>
+                                    </a>
+                                    <a data-id=@compliance.Id class="aAddActionCompliance btn btn-primary" title="Edit Action">
+                                        <span class="ion-paper-airplane"></span>
+                                    </a>
+                                    <a data-id=@compliance.Id class="aRemoveCompliance btn btn-danger" title="Delete Compliance" data-placement="left" data-toggle="confirmation" data-title="Remove?, Sure??">
+                                        <span class="fa fa-remove"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                            }
+                        }
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End row-->
+
+<div id="space"> </div>
+
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $(".aAddCompliance").click(function () {
+                var url = window.g_baseUrl + "Compliance/Compliance/ViewCompliance/";
+                $('#space').load(url, function () {
+                    $('#modelCompliance').modal('show');
+                    $('.select2').each(function () {
+                        $(this).val(null)
+                    });
+                });
+            });
+           
+            $(".aRemoveCompliance").click(function () {
+                var url = window.g_baseUrl + "Compliance/Compliance/DeleteCompliance/";
+                url = url + $(this).data("id");
+                location.href = url;
+            });
+
+            $(".aEditCompliance").click(function () {
+                var url = window.g_baseUrl + "Compliance/Compliance/ViewCompliance/";
+                url = url + $(this).data("id");
+                $('#space').load(url, function () {
+                    $('#modelCompliance').modal('show');
+                });
+            });
+        });
+
+        $(document).on('change', '#CategoryId', function () {
+            var categoryId = $("#CategoryId option:selected").val();
+
+            if (categoryId !== undefined) {
+                $.ajax({
+                    url: window.g_baseUrl + "Compliance/Compliance/GetSubCategories/",
+                    data: "{ 'categoryId': '" + categoryId + "'}",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        $('#SubCategoryId').find('option').remove();
+                        var options = $('#SubCategoryId').get(0).options;
+                        $.each(data, function (key, value) {
+                            options[options.length] = new Option(value.value, value.key);
+                        });
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            }
+
+        });
+    </script>
+}

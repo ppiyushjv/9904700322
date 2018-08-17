@@ -1,0 +1,93 @@
+﻿@model MOSSWORKLOG.Areas.Document.Models.CategoryViewModel
+
+@{
+    Layout = "~/Areas/Compliance/Views/Shared/_Layout.cshtml";
+}
+                    
+<!--Start Page Title-->
+<div class="page-title-box">
+    <h4 class="page-title">Category</h4>
+    <ol class="breadcrumb">
+        <li>
+            <a href="@Url.Action("Index", "Home", new { area = "" })">Home</a>
+        </li>
+
+        <li class="active">
+            Category
+        </li>
+    </ol>
+    <div class="clearfix"></div>
+</div>
+<!--End Page Title-->
+
+<a class="aAddCategory btn btn-info" data-toggle="modal" href="#" accesskey="a">
+    <i class="fa fa-plus"></i> Add Category
+</a>
+    
+<!--Start row-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="white-box">
+            <div class="table-responsive">
+                <table id="tblDatatable" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th> Name</th>
+                            <th style="width:10%"> Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var category in Model.Categories)
+                        {
+                            <tr>
+                                <td> @category.Name </td>
+                                <td style="width:10%">
+                                    <a data-id=@category.Id class="aEditCategory btn btn-primary" title="Edit Category">
+                                        <span class="fa fa-edit"></span>
+                                    </a>
+                                    <a data-id=@category.Id class="aRemoveCategory btn btn-danger" title="Delete Category" data-placement="left" data-toggle="confirmation" data-title="Remove?, Sure??">
+                                        <span class="fa fa-remove"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End row-->
+
+<div id="space"> </div>
+
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $(".aAddCategory").click(function () {
+                var url = window.g_baseUrl + "Compliance/Compliance/ViewCategory/";
+                $('#space').load(url, function () {
+                    $('#modelCategory').modal('show');
+                });
+            });
+           
+            $(".aRemoveCategory").click(function () {
+                var url = window.g_baseUrl + "Compliance/Compliance/DeleteCategory/";
+                url = url + $(this).data("id");
+                location.href = url;
+            });
+
+            $(".aEditCategory").click(function () {
+                var url = window.g_baseUrl + "Compliance/Compliance/ViewCategory/";
+                url = url + $(this).data("id");
+                $('#space').load(url, function () {
+                    $('#modelCategory').modal('show');
+                });
+            });
+
+        });
+    </script>
+}

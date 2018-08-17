@@ -1,0 +1,394 @@
+﻿@model MOSSWORKLOG.Areas.ChangeManagement.Models.ChangeManagementModel
+
+@{
+    Layout = "~/Areas/ChangeManagement/Views/Shared/_Layout.cshtml";
+}
+
+                    
+<!--Start Page Title-->
+<div class="page-title-box">
+    <h4 class="page-title">Change Management</h4>
+    <ol class="breadcrumb">
+        <li>
+            <a href="@Url.Action("Index", "Home", new { area = "" })">Home</a>
+        </li>
+        <li class="active">
+            <a href="@Url.Action("Index", "ChangeManagement", new { area = "ChangeManagement" })">Change Management</a>
+        </li>
+    </ol>
+    <div class="clearfix"></div>
+</div>
+<!--End Page Title-->
+
+<!--Start row-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="white-box">
+                <div class="modal-header">
+                    @if (!Model.IsEdit)
+                    {
+                        <h4 class="modal-title">Add Ticket</h4>
+                    }
+                    else
+                    {
+                        <h4 class="modal-title">Edit Ticket # @Model.TicketNumber</h4>
+                    }
+                </div>
+                <div class="modal-body">
+                    @using (Html.BeginForm("CreateTicket", "ChangeManagement", new { area = "ChangeManagement" }, FormMethod.Post, new { @role = "form", @id = "frmCreateTicket", @class = "form-horizontal js-validation-bootstrap" , @enctype = "multipart/form-data" }))
+                    {
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(m => m.IsEdit)
+                        @Html.HiddenFor(m => m.Id)
+
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Title, htmlAttributes: new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(m => m.Title, "", new { @class = "form-control", @type = "text", @autofocus = "autofocus", @style = "width:80%;" })
+                                    @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Priority, htmlAttributes: new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+                                    @Html.EnumDropDownListFor(m => m.Priority, new { @class = "form-control select2", @type = "text", @autofocus = "autofocus", @style = "width:20%;" })
+                                    @Html.ValidationMessageFor(m => m.Priority, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.ClientId, htmlAttributes: new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+                                    @Html.DropDownListFor(m => m.ClientId, new SelectList(Extension.GetClient(), "ClientId", "ClientName"), new { @class = "form-control select2", @type = "text",  @style = "width:80%;" })
+                                    @Html.ValidationMessageFor(m => m.ClientId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.ProjectId, htmlAttributes: new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+                                    @Html.DropDownListFor(m => m.ProjectId, new SelectList(Extension.GetProejcts(), "ProjectId", "ProjectName"), new { @class = "form-control select2", @type = "text",  @style = "width:80%;" })
+                                    @Html.ValidationMessageFor(m => m.ProjectId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.ChangeTypeId, htmlAttributes: new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+                                    @Html.DropDownListFor(m => m.ChangeTypeId, new SelectList(Extension.GetChangeManagementType(), "Id", "Name"), new { @class = "form-control select2", @type = "text",  @style = "width:80%;" })
+                                    @Html.ValidationMessageFor(m => m.ChangeTypeId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.ChangeSubTypeId, htmlAttributes: new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+                                    @Html.DropDownListFor(m => m.ChangeSubTypeId, new SelectList(Extension.GetChangeManagementSubType(), "Id", "Name"), new { @class = "form-control select2", @type = "text",  @style = "width:80%;" })
+                                    @Html.ValidationMessageFor(m => m.ChangeSubTypeId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.DueDate, htmlAttributes: new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(m => m.DueDate, "", new { @class = "form-control default-date-picker", @type = "text", @style = "width:20%;" })
+                                    @Html.ValidationMessageFor(m => m.DueDate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Description, htmlAttributes: new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+                                    @Html.TextAreaFor(m => m.Description, 10, 80, new { @class = "form-control", @type = "text",  @style = "width:80%;" })
+                                    @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.StepToReproduce, htmlAttributes: new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+                                    @Html.TextAreaFor(m => m.StepToReproduce,10,80 ,new { @class = "form-control", @type = "text", @style = "width:80%;" })
+                                    @Html.ValidationMessageFor(m => m.StepToReproduce, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.AssignTo, htmlAttributes: new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+                                    @Html.DropDownListFor(m => m.AssignTo, new SelectList(Extension.GetUser(), "UserId", "UserName"), new { @class = "form-control select2", @type = "text", @style = "width:80%;" })
+                                    @Html.ValidationMessageFor(m => m.AssignTo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <hr />
+                        <h4 class="modal-title">Attachments</h4>
+
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Attachment, htmlAttributes: new { @class = "col-md-3 control-label" })
+                                <div class="col-md-7">
+                                    @Html.TextBoxFor(m => m.Attachment, "", new { @class = "form-control", @type = "file", @style = "width:100%;" })
+                                    @Html.ValidationMessageFor(m => m.Attachment, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-2 pull-left">
+                                    <a class="aAddAttachment btn btn-info" data-toggle="modal" href="#">
+                                        <i class="fa fa-plus"></i> Add
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="tblAttachment">
+                                <thead>
+                                    <tr>
+                                        <th> Filename </th>
+                                        <td style='display:none'></td>
+                                        <td style='display:none'></td>
+                                        <th style="width:10%"> </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var a in Model.Attachments)
+                                    {
+                                        <tr>
+                                            <td>@a.OriginalName</td>
+                                            <td style='display:none'>@a.AttachmentPath</td>
+                                            <td style='display:none'></td>
+                                            <td style="width:10%">
+                                                <a data-id=@a.Id class="aRemoveAttachment btn btn-danger" title="Delete Attachment" data-placement="top" data-toggle="confirmation" data-title="Remove?, Sure??">
+                                                    <span class="fa fa-remove"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <hr />
+                        <h4 class="modal-title">Comments</h4>
+
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Comment, htmlAttributes: new { @class = "col-md-3 control-label" })
+                                <div class="col-md-7">
+                                    @Html.TextAreaFor(m => m.Comment, 2, 100, new { @class = "form-control", @type = "text", @style = "width:100%;" })
+                                    @Html.ValidationMessageFor(m => m.Comment, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-2 pull-left">
+                                    <a class="aAddComment btn btn-info" data-toggle="modal" href="#">
+                                        <i class="fa fa-plus"></i> Add
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="tblComment">
+                                <thead>
+                                    <tr>
+                                        <th> Comments </th>
+                                        <th style="width:10%"> </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var c in Model.Comments)
+                                {
+                                <tr>
+                                    <td>@c.Comment</td>
+                                    <td style="width:10%">
+                                        <a data-id=@c.Id class="aRemoveComment btn btn-danger" title="Delete Ticket" data-placement="top" data-toggle="confirmation" data-title="Remove?, Sure??">
+                                            <span class="fa fa-remove"></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        }
+                </div>
+
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-default aClose" type="button">Close</button>
+                    <button class="btn btn-primary" type="submit" id="btnCreateClient" form="frmCreateTicket">Save changes</button>
+                </div>
+
+        </div>
+    </div>
+</div>
+<!--End row-->
+
+@section Scripts {
+    <script type="text/javascript">
+
+    
+
+    $(document).ready(function () {
+
+        var comments = [];
+        var attachments = [];
+
+        $("#tblComment tbody tr").each(function () {
+            var comment = {
+                "Comment": $(this).find("td:eq(0)").html()
+            };
+            comments.push(comment);
+        });
+
+        $("#tblAttachment tbody tr").each(function () {
+            var attachment = {
+                "OriginalName": $(this).find("td:eq(0)").html(),
+                "AttachmentPath": $(this).find("td:eq(1)").html(),
+            };
+            attachments.push(attachment);
+        });
+
+        generateAttachmentTable();
+        generateCommentTable();
+
+        $('.default-date-picker').datepicker({
+            format: 'dd-mm-yyyy',
+            autoclose: true
+        });
+
+        $(document).on('click', '.aAddComment', function () {
+            var commentvalue = $("#Comment").val();
+
+            var comment = {
+                "Comment": commentvalue
+            };
+
+            if (comment.Comment == '' || comment.Comment == null) {
+                return;//validation
+            }
+
+            comments.push(comment);
+            generateCommentTable();
+
+
+            $("#Comment").val("");
+            $("#Comment").focus();
+        });
+
+        $(document).on('click', '.aRemoveComment', function () {
+            comments.splice($(this).data("id"), 1);
+            generateCommentTable();
+        });
+
+        function generateCommentTable() {
+            $("#tblComment > tbody").html('');
+            var index = 0;
+            comments.forEach(function (comment) {
+                $("#tblComment > tbody").append("<tr>" +
+                    "<td>" + comment.Comment + "<input type='hidden' name='Comments[" + index + "].Comment' value='" + comment.Comment + "'/>" + "</td>" +
+                    "<td><a data-id='" + index + "' class='aRemoveComment btn btn-danger' data-placement='top' data-toggle='confirmation' data-title='Remove?, Sure??'  data-original-title='' title=''> " +
+                    "<span class='fa fa-remove'></span></a></td></tr>");
+
+                $(document).find('[data-toggle=confirmation]').confirmation({
+                    rootSelector: '[data-toggle=confirmation]',
+                });
+
+                index++;
+            });
+        }
+
+        $(document).on('click', '.aAddAttachment', function () {
+
+            if ($("#Attachment").val() == "")
+                return;
+
+            var file_data = $("#Attachment").prop("files")[0];
+            var formdata = new FormData();
+            formdata.append("file", file_data);
+
+            var url = window.g_baseUrl + "ChangeManagement/ChangeManagement/Upload/";
+            // Make your POST
+            $ .ajax ({
+                type: 'POST',
+                url: url,
+                data: formdata,
+                cache: false,
+                contentType: false,
+                processData: false,
+                enctype: 'multipart/form-data',
+                success: function (view) {
+                },
+                complete: function (view) {
+                    var attachment = {
+                        "UploadFile": formdata,
+                        "OriginalName": view.responseJSON.OrignalFile,
+                        "AttachmentPath": view.responseJSON.AttachmentPath
+                    };
+                    attachments.push(attachment);
+                    generateAttachmentTable();
+                }
+            });
+
+
+            $("#Attachment").val("");
+            $("#Attachment").focus();
+        });
+
+        $(document).on('click', '.aRemoveAttachment', function () {
+            attachments.splice($(this).data("id"), 1);
+            generateAttachmentTable();
+        });
+
+        function generateAttachmentTable() {
+            $("#tblAttachment > tbody").html('');
+            var index = 0;
+            attachments.forEach(function (attachment) {
+                $("#tblAttachment > tbody").append(
+                    "<tr>" +
+                    "<td>" + attachment.OriginalName + "<input type='hidden' name='Attachments[" + index + "].OriginalName' value='" + attachment.OriginalName + "'/>" + "</td>" +
+                    "<td style='display:none'>" + attachment.AttachmentPath + "<input type='hidden' name='Attachments[" + index + "].AttachmentPath' value='" + attachment.AttachmentPath + "'/>" + "</td>" +
+                    "<td style='display:none'>" + attachment.UploadFile + "<input type='hidden' name='Attachments[" + index + "].UploadFile' value='" + attachment.UploadFile + "'/>" + "</td>" +
+                    "<td><a data-id='" + index + "' class='aRemoveAttachment btn btn-danger' data-placement='top' data-toggle='confirmation' data-title='Remove?, Sure??'  data-original-title='Delete Attachment'> " +
+                        "<span class='fa fa-remove'></span></a>" +
+                    "</td>"+
+                    "</tr>");
+
+                $(document).find('[data-toggle=confirmation]').confirmation({
+                    rootSelector: '[data-toggle=confirmation]',
+                });
+
+                index++;
+            });
+        }
+    });
+
+    $(document).on('click', '.aClose', function () {
+        var url = window.g_baseUrl + "ChangeManagement/ChangeManagement/Index/";
+        location.href = url;
+    });
+
+
+    </script>
+}

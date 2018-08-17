@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3BFF1136-E9D1-48EF-B86B-47B1289464F1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MOSSWORKLOG.DATA</RootNamespace>
+    <AssemblyName>MOSSWORKLOG.DATA</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Migrations\201806091725399_09062018.cs" />
+    <Compile Include="Migrations\201806091725399_09062018.Designer.cs">
+      <DependentUpon>201806091725399_09062018.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806121036001_12062018.cs" />
+    <Compile Include="Migrations\201806121036001_12062018.Designer.cs">
+      <DependentUpon>201806121036001_12062018.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806130839597_13062018.cs" />
+    <Compile Include="Migrations\201806130839597_13062018.Designer.cs">
+      <DependentUpon>201806130839597_13062018.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\ChangeManagementComment.cs" />
+    <Compile Include="Models\ChangeManagementAttachment.cs" />
+    <Compile Include="Models\ChangeManagementSubType.cs" />
+    <Compile Include="Models\ChangeManagementDetails.cs" />
+    <Compile Include="Models\Compliance.cs" />
+    <Compile Include="Models\Enums\EventStateEnum.cs" />
+    <Compile Include="Models\Enums\RequestTypeEnum.cs" />
+    <Compile Include="Models\Enums\EventTypeEnum.cs" />
+    <Compile Include="Models\Enums\StatusEnum.cs" />
+    <Compile Include="Models\Enums\PriorityEnum.cs" />
+    <Compile Include="Models\Mapping\PasswordResetRequestMap.cs" />
+    <Compile Include="Models\Mapping\tblCategoryMap.cs" />
+    <Compile Include="Models\Mapping\tblClientMap.cs" />
+    <Compile Include="Models\Mapping\tblDocumentMap.cs" />
+    <Compile Include="Models\Mapping\tblMenuMap.cs" />
+    <Compile Include="Models\Mapping\tblProjectMap.cs" />
+    <Compile Include="Models\Mapping\tblRoleMap.cs" />
+    <Compile Include="Models\Mapping\tblTaskMap.cs" />
+    <Compile Include="Models\Mapping\tblTaskTickMap.cs" />
+    <Compile Include="Models\Mapping\tblUserLogMap.cs" />
+    <Compile Include="Models\Mapping\tblUserMap.cs" />
+    <Compile Include="Models\Mapping\tblUserRoleAssignMap.cs" />
+    <Compile Include="Models\Mapping\tblWorkLogMap.cs" />
+    <Compile Include="Models\ComplianceCategory.cs" />
+    <Compile Include="Models\TrackMe\TrakMeRequest.cs" />
+    <Compile Include="Models\TrackMe\TrakMeEventViewer.cs" />
+    <Compile Include="Models\TrackMe\TrakMeEventParticipate.cs" />
+    <Compile Include="Models\TrackMe\TrakMeEvent.cs" />
+    <Compile Include="Models\TrackMe\TrakMeEventSubType.cs" />
+    <Compile Include="Models\TrackMe\TrakMeRoute.cs" />
+    <Compile Include="Models\TrackMe\TrakMeSettings.cs" />
+    <Compile Include="Models\TrackMe\TrakMeMessage.cs" />
+    <Compile Include="Models\TrackMe\TrakMeUserRouteNotificaion.cs" />
+    <Compile Include="Models\TrackMe\TrakMeUserLog.cs" />
+    <Compile Include="Models\TrackMe\TrakMeCity.cs" />
+    <Compile Include="Models\TrackMe\TrakMeCountry.cs" />
+    <Compile Include="Models\TrackMe\TrakMeUser.cs" />
+    <Compile Include="MossWorkLogDbEntities.cs" />
+    <Compile Include="Models\PasswordResetRequest.cs" />
+    <Compile Include="Models\ChangeManagementType.cs" />
+    <Compile Include="Models\tblCategory.cs" />
+    <Compile Include="Models\CCTVLog.cs" />
+    <Compile Include="Models\tblContract.cs" />
+    <Compile Include="Models\tblVenders.cs" />
+    <Compile Include="Models\tblClient.cs" />
+    <Compile Include="Models\tblTraining.cs" />
+    <Compile Include="Models\tblDocumentKeyWordMap.cs" />
+    <Compile Include="Models\tblDocumentKeyWord.cs" />
+    <Compile Include="Models\tblDocument.cs" />
+    <Compile Include="Models\tblMenu.cs" />
+    <Compile Include="Models\tblProject.cs" />
+    <Compile Include="Models\tblRole.cs" />
+    <Compile Include="Models\tblTask.cs" />
+    <Compile Include="Models\tblTaskTick.cs" />
+    <Compile Include="Models\tblUser.cs" />
+    <Compile Include="Models\tblUserLog.cs" />
+    <Compile Include="Models\tblUserRoleAssign.cs" />
+    <Compile Include="Models\tblWorkLog.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201806091725399_09062018.resx">
+      <DependentUpon>201806091725399_09062018.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806121036001_12062018.resx">
+      <DependentUpon>201806121036001_12062018.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806130839597_13062018.resx">
+      <DependentUpon>201806130839597_13062018.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

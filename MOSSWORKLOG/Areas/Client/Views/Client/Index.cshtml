@@ -1,0 +1,115 @@
+﻿@model MOSSWORKLOG.Areas.Client.Models.ClientViewModel
+
+@{
+    Layout = "~/Areas/Client/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link href="~/assets/plugins/jquery-multi-select/css/multi-select.css" rel="stylesheet" type="text/css" />
+}
+                    
+<!--Start Page Title-->
+<div class="page-title-box">
+    <h4 class="page-title">Client</h4>
+    <ol class="breadcrumb">
+        <li>
+            <a href="@Url.Action("Index", "Home", new { area = "" })">Home</a>
+        </li>
+        <li>
+            <a href="#">WorkLog</a>
+        </li>
+        <li class="active">
+            Client
+        </li>
+    </ol>
+    <div class="clearfix"></div>
+</div>
+<!--End Page Title-->
+
+<a class="aAddClient btn btn-info" data-toggle="modal" href="#">
+    <i class="fa fa-plus"></i> Add Client
+</a>
+    
+<!--Start row-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="white-box">
+            <div class="table-responsive">
+                <table id="tblDatatable" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th > Short Name</th>
+                            <th > Client Name</th>
+                            <th style="width:13%"> Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var client in Model.Clients)
+                        {
+                            <tr>
+                                <td >@client.ShortName</td>
+                                <td >@client.ClientName</td>
+                                <td style="width:13%">
+                                    <a data-id=@client.ClientId class="aEditClient btn btn-primary" title="Edit client">
+                                        <span class="fa fa-edit"></span>
+                                    </a>
+                                    <a data-id=@client.ClientId class="aRemoveClient btn btn-danger" title="Delete client" data-placement="top" data-toggle="confirmation" data-title="Remove?, Sure??">
+                                        <span class="fa fa-remove"></span>
+                                    </a>
+                                    <a data-id=@client.ClientId class="aAddClientUser btn btn-purple" title="Assign User rights">
+                                        <span class="fa fa-user-secret"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End row-->
+
+<div id="space"> </div>
+
+@section Scripts {
+<script src="~/assets/plugins/jquery-multi-select/js/jquery.multi-select.js"></script>
+<script src="~/assets/plugins/jquery-multi-select/js/jquery.quicksearch.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        
+            $(".aAddClient").click(function () {
+            var url = window.g_baseUrl + "Client/Client/ViewClient/";
+            $('#space').load(url, function () {
+                $('#modelClient').modal('show');
+            });
+        });
+
+        $(".aAddClientUser").click(function () {
+            var url = window.g_baseUrl + "Client/Client/ViewClientUser/";
+            url = url + $(this).data("id");
+            $('#space').load(url, function () {
+                $('#modelClientUser').modal('show');
+                $('#UserSelected').multiSelect({
+                    selectableOptgroup: true
+                });
+
+            });
+        });
+
+        $(".aRemoveClient").click(function () {
+            var url = window.g_baseUrl + "Client/Client/DeleteClient/";
+            url = url + $(this).data("id");
+            location.href = url;
+        });
+
+        $(".aEditClient").click(function () {
+            var url = window.g_baseUrl + "Client/Client/ViewClient/";
+            url = url + $(this).data("id");
+            $('#space').load(url, function () {
+                $('#modelClient').modal('show');
+            });
+        });
+    });
+</script>
+}

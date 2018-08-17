@@ -1,0 +1,43 @@
+﻿@model MOSSWORKLOG.Areas.Client.Models.ClientUserModel
+@{
+    Layout = null;
+}
+
+<!-- modal start -->
+<div class="modal fade" id="modelClientUser" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>    
+                <h4 class="modal-title">Assign user access</h4>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("CreateClientUser", "Client", new { area = "Client" }, FormMethod.Post, new { @role = "form", @id = "frmCreateClientUser", @class = "form-horizontal" }))
+                {
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        @Html.HiddenFor(m => m.ClientId)
+
+                    <div class="row">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.UserSelected, htmlAttributes: new { @class = "col-md-3 control-label" })
+                            <div class="col-md-9">
+                                @Html.ListBoxFor(m => m.UserSelected, Model.AllUsers, new { @class = "form-control multi-select", @type = "text", @multiple = "multiple" })
+                                @Html.ValidationMessageFor(m => m.UserSelected, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="submit"  id="btnCreateClient" form="frmCreateClientUser">Save changes</button>
+                <button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- modal end -->

@@ -1,0 +1,98 @@
+﻿@model MOSSWORKLOG.Areas.Training.Models.TrainingViewModel
+
+@{
+    Layout = "~/Areas/Training/Views/Shared/_Layout.cshtml";
+}
+                    
+<!--Start Page Title-->
+<div class="page-title-box">
+    <h4 class="page-title">Training</h4>
+    <ol class="breadcrumb">
+        <li>
+            <a href="@Url.Action("Index", "Home", new { area = "" })">Home</a>
+        </li>
+        <li class="active">
+            Training
+        </li>
+    </ol>
+    <div class="clearfix"></div>
+</div>
+<!--End Page Title-->
+
+<a class="aAddTraining btn btn-info" data-toggle="modal" href="#">
+    <i class="fa fa-plus"></i> Add 
+</a>
+    
+<!--Start row-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="white-box">
+            <div class="table-responsive">
+                <table id="tblDatatable" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <td>Training By</td>
+                            <td>Training Attend</td>
+                            <td>Training Subject</td>
+                            <td>Training Duration</td>
+                            <th style="width:10%"> Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var training in Model.Trainings)
+                        {
+                            <tr>
+                                <td>@training.TrainingDate.ToString()</td>
+                                <td>@training.TrainingBy.FullName</td>
+                                <td>@training.TrainingAttend.FullName</td>
+                                <td>@training.TrainingSubject</td>
+                                <td>@training.TrainingDuration</td>
+                                <td style="width:10%">
+                                    <a data-id=@training.Id class="aEditTraining btn btn-primary" title="Edit Training">
+                                        <span class="fa fa-edit"></span>
+                                    </a>
+                                    <a data-id=@training.Id class="aRemoveTraining btn btn-danger" title="Delete Training" data-placement="top" data-toggle="confirmation" data-title="Remove?, Sure??">
+                                        <span class="fa fa-remove"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End row-->
+
+<div id="space"> </div>
+
+@section Scripts {
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $(".aAddTraining").click(function () {
+            var url = window.g_baseUrl + "Training/Training/ViewTraining/";
+            $('#space').load(url, function () {
+                $('#modelTraining').modal('show');
+            });
+        });
+
+        $(".aRemoveTraining").click(function () {
+            var url = window.g_baseUrl + "Training/Training/DeleteTraining/";
+            url = url + $(this).data("id");
+            location.href = url;
+        });
+
+        $(".aEditTraining").click(function () {
+            var url = window.g_baseUrl + "Training/Training/ViewTraining/";
+            url = url + $(this).data("id");
+            $('#space').load(url, function () {
+                $('#modelTraining').modal('show');
+            });
+        });
+
+    });
+</script>
+}

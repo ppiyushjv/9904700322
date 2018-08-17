@@ -1,0 +1,61 @@
+﻿@model MOSSWORKLOG.Areas.WorkLog.Models.WorkLogViewModel
+
+@{
+    Layout = "~/Areas/Report/Views/Shared/_Layout.cshtml";
+}
+
+<!--Start Page Title-->
+<div class="page-title-box">
+    <h4 class="page-title">Report</h4>
+    <ol class="breadcrumb">
+        <li>
+            <a href="@Url.Action("Index", "Home", new { area = "" })">Home</a>
+        </li>
+        <li class="active">
+            Report
+        </li>
+    </ol>
+    <div class="clearfix"></div>
+</div>
+<!--End Page Title-->
+
+<div class="row">
+    <div class="col-md-8"></div>
+    <div class="col-md-4">
+        <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+            <span></span> <b class="caret"></b>
+        </div>
+    </div>
+</div>
+
+
+<!--Start row-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="white-box">
+            <div class="table-responsive">
+                <table id="tblReport" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th> Project Name </th>
+                            <th> Task Name </th>
+                            <th> Start Time </th>
+                            <th> End Time </th>
+                            <th> Duration (Hours) </th>
+                            <th> Unit </th>
+                            <th> Average Time (Minutes) </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End row-->
+
+@section Scripts {
+  var Url = window.g_baseUrl + "Report/Report/GetWorkLog"
+}

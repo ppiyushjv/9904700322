@@ -1,0 +1,84 @@
+﻿@model MOSSWORKLOG.Models.HomeViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-main container">
+    <!--Start Page Title-->
+    <div class="page-title-box">
+        <h4 class="page-title">Home</h4>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new { area = "" })">Home</a>
+            </li>
+
+            <li class="active">
+                Home
+            </li>
+        </ol>
+        <div class="clearfix"></div>
+    </div>
+    <!--End Page Title-->
+
+    <!--Start row-->
+    @if (User.IsInRole("1"))
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+
+                    @if (User.IsInRole("1") || User.IsInRole("3"))
+                    {
+                        <div class="col-md-3 col-sm-6">
+                            <div class="tiles-style1 circle-icon white-box">
+                                <div class="tiles-icon bg-success"> <i class="icon-speech"></i>  </div>
+                                <div class="tiles-text text-right">
+                                    <h4>Clients : </h4>
+                                    <span>@Model.ClientCount</span>
+                                </div>
+                            </div>
+                        </div><!-- /.col-md-3-->
+                    }
+
+                    @if (User.IsInRole("1") || User.IsInRole("3") || User.IsInRole("4"))
+                    {
+                        <div class="col-md-3 col-sm-6">
+                            <div class="tiles-style1 circle-icon white-box">
+                                <div class="tiles-icon bg-primary"> <i class="icon-book-open"></i>  </div>
+                                <div class="tiles-text text-right">
+                                    <h4>Projects : </h4>
+                                    <span>@Model.PorjectCount</span>
+                                </div>
+                            </div>
+                        </div><!-- /.col-md-3-->
+                    }
+
+                    @if (User.IsInRole("1"))
+                    {
+                        <div class="col-md-3 col-sm-6">
+                            <div class="tiles-style1 circle-icon white-box">
+                                <div class="tiles-icon bg-danger"> <i class="icon-docs"></i>  </div>
+                                <div class="tiles-text text-right">
+                                    <h4>User : </h4>
+                                    <span>@Model.UserCount</span>
+                                </div>
+                            </div>
+                        </div><!-- /.col-md-3-->
+                    }
+
+                    <div class="col-md-3 col-sm-6">
+                        <div class="tiles-style1 circle-icon white-box">
+                            <div class="tiles-icon  bg-warning "> <i class="icon-briefcase"></i>  </div>
+                            <div class="tiles-text text-right">
+                                <h4>Tasks : </h4>
+                                <span>@Model.TaskCount</span>
+                            </div>
+                        </div>
+                    </div><!-- /.col-md-3-->
+                </div>
+            </div>
+        </div>
+    }
+    <!--End row-->
+</div>

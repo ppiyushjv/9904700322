@@ -1,0 +1,80 @@
+﻿@model MOSSWORKLOG.Areas.WorkLog.Models.WorkLogModel
+
+@{
+    Layout = null;
+}
+
+<!-- modal start -->
+<div class="modal fade" id="modelWorkLog" role="dialog" aria-hidden="true">
+    <div class="modal-dialog model-sg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                @if (!Model.IsEdit)
+                {
+                    <h4 class="modal-title">Add WorkLog</h4>
+                }
+                else
+                {
+                    <h4 class="modal-title">Edit WorkLog</h4>
+                }
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("CreateWorkLog", "WorkLog", new { area = "WorkLog" }, FormMethod.Post, new { @role = "form", @id = "frmCreateWorkLog", @class = "form-horizontal" }))
+                {
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    @Html.HiddenFor(m => m.WorkLogId)
+                    @Html.HiddenFor(m => m.IsEdit)
+
+                    <div class="row">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.TaskId, htmlAttributes: new { @class = "col-md-3 control-label" })
+                            <div class="col-md-9">
+                                @Html.DropDownListFor(m => m.TaskId, Model.AllTask, new { @class = "form-control select2", @type = "text", @style = "width:70%;", @autofocus = "autofocus" })
+                                @Html.ValidationMessageFor(m => m.TaskId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.StartTime, htmlAttributes: new { @class = "col-md-3 control-label" })
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(m => m.StartTime, "", new { @class = "form-control datetimepicker", @type = "text", @style = "width:80%;" })
+                                @Html.ValidationMessageFor(m => m.StartTime, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.EndTime, htmlAttributes: new { @class = "col-md-3 control-label" })
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(m => m.EndTime, "", new { @class = "form-control datetimepicker", @type = "text", @style = "width:80%;" })
+                                @Html.ValidationMessageFor(m => m.EndTime, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Unit, htmlAttributes: new { @class = "col-md-3 control-label" })
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(m => m.Unit, "", new { @class = "form-control", @type = "number", @style = "width:80%;" })
+                                @Html.ValidationMessageFor(m => m.Unit, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="submit" id="btnCreateWorkLog" form="frmCreateWorkLog">Save changes</button>
+                <button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- modal end -->

@@ -1,0 +1,99 @@
+﻿@model MOSSWORKLOG.Areas.Document.Models.CategoryViewModel
+
+@{
+    Layout = "~/Areas/Compliance/Views/Shared/_Layout.cshtml";
+}
+
+
+<!--Start Page Title-->
+<div class="page-title-box">
+    <h4 class="page-title">Sub Category</h4>
+    <ol class="breadcrumb">
+        <li>
+            <a href="@Url.Action("Index", "Home", new { area = "" })">Home</a>
+        </li>
+
+        <li class="active">
+            Sub Category
+        </li>
+    </ol>
+    <div class="clearfix"></div>
+</div>
+<!--End Page Title-->
+
+<a class="aAddSubCategory btn btn-info" data-toggle="modal" href="#" accesskey="a">
+    <i class="fa fa-plus"></i> Add Sub Category
+</a>
+    
+<!--Start row-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="white-box">
+            <div class="table-responsive">
+                <table id="tblDatatable" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th> Name </th>
+                            <th> Category Name </th>
+                            <th style="width:10%"> Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var category in Model.Categories)
+                        {
+                            <tr>
+                                <td> @category.Name </td>
+                                <td> @category.CatName </td>
+                                <td style="width:10%">
+                                    <a data-id=@category.Id class="aEditSubCategory btn btn-primary" title="Edit Category">
+                                        <span class="fa fa-edit"></span>
+                                    </a>
+                                    <a data-id=@category.Id class="aRemoveSubCategory btn btn-danger" title="Delete Sub Category" data-placement="left" data-toggle="confirmation" data-title="Remove?, Sure??">
+                                        <span class="fa fa-remove"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End row-->
+
+<div id="space"> </div>
+
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $(".aAddSubCategory").click(function () {
+                var url = window.g_baseUrl + "Compliance/Compliance/ViewSubCategory/";
+                $('#space').load(url, function () {
+                    $('#modelSubCategory').modal('show');
+                    $(".select2").select2();
+                });
+            });
+           
+            $(".aRemoveSubCategory").click(function () {
+                var url = window.g_baseUrl + "Compliance/Compliance/DeleteSubCategory/";
+                url = url + $(this).data("id");
+                location.href = url;
+            });
+
+            $(".aEditSubCategory").click(function () {
+                var url = window.g_baseUrl + "Compliance/Compliance/ViewSubCategory/";
+                url = url + $(this).data("id");
+                $('#space').load(url, function () {
+                    $('#modelSubCategory').modal('show');
+                    $(".select2").select2();
+                });
+            });
+            
+            
+        });
+    </script>
+}

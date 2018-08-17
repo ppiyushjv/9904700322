@@ -1,0 +1,116 @@
+﻿@model MOSSWORKLOG.Areas.Project.Models.ProjectViewModel
+
+@{
+    Layout = "~/Areas/Project/Views/Shared/_Layout.cshtml";
+}
+                    
+@section Styles {
+    <link href="~/assets/plugins/jquery-multi-select/css/multi-select.css" rel="stylesheet" type="text/css" />
+}
+
+<!--Start Page Title-->
+<div class="page-title-box">
+    <h4 class="page-title">Project</h4>
+    <ol class="breadcrumb">
+        <li>
+            <a href="@Url.Action("Index", "Home", new { area = "" })">Home</a>
+        </li>
+
+        <li class="active">
+            Project
+        </li>
+    </ol>
+    <div class="clearfix"></div>
+</div>
+<!--End Page Title-->
+
+<a class="aAddProject btn btn-info" data-toggle="modal" href="#">
+    <i class="fa fa-plus"></i> Add Project
+</a>
+    
+<!--Start row-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="white-box">
+            <div class="table-responsive">
+                <table id="tblDatatable" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th> Project Name</th>
+                            <th> Client Name</th>
+                            <th> Description</th>
+                            <th style="width:13%">Action </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var project in Model.Projects)
+                        {
+                            <tr>
+                                <td> @project.ProjectName </td>
+                                <td> @project.ClientName  </td>
+                                <td> @project.Description </td>
+                                <td style="width:13%">
+                                    <a data-id=@project.ProjectId class="aEditProject btn btn-primary" title="Edit Project">
+                                        <span class="fa fa-edit"></span>
+                                    </a>
+                                    <a data-id=@project.ProjectId class="aRemoveProject btn btn-danger" title="Delete Project" data-placement="top" data-toggle="confirmation" data-title="Remove?, Sure??">
+                                        <span class="fa fa-remove"></span>
+                                    </a>
+                                    <a data-id=@project.ProjectId class="aAddProjectUser btn btn-purple" title="Assign User rights">
+                                        <span class="fa fa-user-secret"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End row-->
+
+<div id="space"> </div>
+
+
+@section Scripts {
+    <script src="~/assets/plugins/jquery-multi-select/js/jquery.multi-select.js"></script>
+    <script src="~/assets/plugins/jquery-multi-select/js/jquery.quicksearch.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $(".aAddProjectUser").click(function () {
+                var url = window.g_baseUrl + "Project/Project/ViewProjectUser/";
+                url = url + $(this).data("id");
+                $('#space').load(url, function () {
+                    $('#modelProjectUser').modal('show');
+                    $('#UserSelected').multiSelect({
+                        selectableOptgroup: true
+                    });
+                });
+            });
+
+            $(".aAddProject").click(function () {
+                var url = window.g_baseUrl + "Project/Project/ViewProject/";
+                $('#space').load(url, function () {
+                    $('#modelProject').modal('show');
+                });
+            });
+           
+            $(".aRemoveProject").click(function () {
+                var url = window.g_baseUrl + "Project/Project/DeleteProject/";
+                url = url + $(this).data("id");
+                location.href = url;
+            });
+
+            $(".aEditProject").click(function () {
+                var url = window.g_baseUrl + "Project/Project/ViewProject/";
+                url = url + $(this).data("id");
+                $('#space').load(url, function () {
+                    $('#modelProject').modal('show');
+                });
+            });
+
+        });
+    </script>
+}

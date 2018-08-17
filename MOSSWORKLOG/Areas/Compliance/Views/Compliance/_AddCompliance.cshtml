@@ -1,0 +1,110 @@
+﻿@model MOSSWORKLOG.Areas.Compliance.Models.ComplianceModel
+    @{
+        Layout = null;
+    }
+
+    <!-- modal start -->
+    <div class="modal fade" id="modelCompliance" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    @if (!Model.IsEdit)
+                    {
+                        <h4 class="modal-title">Add Compliance</h4>
+                    }
+                    else
+                    {
+                        <h4 class="modal-title">Edit Compliance</h4>
+                    }
+                </div>
+                <div class="modal-body">
+                    @using (Html.BeginForm("CreateCompliance", "Compliance", new { area = "Compliance" }, FormMethod.Post, new { @role = "form", @id = "frmCreateCompliance", @class = "form-horizontal" }))
+                    {
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        @Html.HiddenFor(m => m.Id)
+                        @Html.HiddenFor(m => m.IsEdit)
+
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.ComplianceDate, htmlAttributes: new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(m => m.ComplianceDate, "", new { @class = "form-control default-date-picker", @type = "datetime", @autofocus = "autofocus", @style = "width:80%;" })
+                                    @Html.ValidationMessageFor(m => m.ComplianceDate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.ContactName, htmlAttributes: new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(m => m.ContactName, "", new { @class = "form-control", @type = "text", @autofocus = "autofocus", @style = "width:80%;" })
+                                    @Html.ValidationMessageFor(m => m.ContactName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.ContactEmail, htmlAttributes: new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(m => m.ContactEmail, "", new { @class = "form-control", @type = "text", @autofocus = "autofocus", @style = "width:80%;" })
+                                    @Html.ValidationMessageFor(m => m.ContactEmail, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.ContactPhone, htmlAttributes: new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(m => m.ContactPhone, "", new { @class = "form-control", @type = "text", @autofocus = "autofocus", @style = "width:80%;" })
+                                    @Html.ValidationMessageFor(m => m.ContactPhone, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.CategoryId, htmlAttributes: new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+                                    @Html.DropDownListFor(m => m.CategoryId, Model.AllCategory, new { @class = "form-control select2", @type = "text", @style = "width:80%;" })
+                                    @Html.ValidationMessageFor(m => m.CategoryId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.SubCategoryId, htmlAttributes: new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+                                    @Html.DropDownListFor(m => m.SubCategoryId, Model.AllSubCategory, new { @class = "form-control select2", @type = "text", @style = "width:80%;" })
+                                    @Html.ValidationMessageFor(m => m.SubCategoryId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Descriptions, htmlAttributes: new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+                                    @Html.TextAreaFor(m => m.Descriptions, 3, 50, new { @class = "form-control", @type = "text", @style = "width:80%;" })
+                                    @Html.ValidationMessageFor(m => m.Descriptions, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit" id="btnCreateProject" form="frmCreateCompliance">Save changes</button>
+                    <button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- modal end -->

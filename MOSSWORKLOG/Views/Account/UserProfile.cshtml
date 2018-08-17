@@ -1,0 +1,99 @@
+﻿@model MOSSWORKLOG.Areas.User.Models.UserModel
+
+<div class="content-main container">
+    <!--Start Page Title-->
+    <div class="page-title-box">
+        <h4 class="page-title">PROFILE</h4>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new { area = "" })">Home</a>
+            </li>
+            <li class="active">
+                PROFILE
+            </li>
+        </ol>
+        <div class="clearfix"></div>
+    </div>
+    <!--End Page Title-->
+
+    <a class="aAddClient btn btn-info" data-toggle="modal" href="#">
+        <i class="fa fa-user-secret"></i> Change Password
+    </a>
+
+    <!--Start row-->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="white-box">
+                <h2 class="header-title">PROFILE</h2>
+                @Html.HiddenFor(m => m.UserId)
+
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.UserName, htmlAttributes: new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(m => m.UserName, "", new { @class = "form-control", @disabled = "disabled", @type = "text", @style = "width:80%;", @autofocus = "autofocus" })
+                            @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.FullName, htmlAttributes: new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(m => m.FullName, "", new { @class = "form-control", @disabled = "disabled", @type = "text", @style = "width:80%;" })
+                            @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Mobile, htmlAttributes: new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(m => m.Mobile, "", new { @class = "form-control", @disabled = "disabled", @type = "text", @style = "width:80%;" })
+                            @Html.ValidationMessageFor(m => m.Mobile, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Email, htmlAttributes: new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(m => m.Email, "", new { @class = "form-control", @disabled = "disabled", @type = "text", @style = "width:80%;" })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.RoleId, htmlAttributes: new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(m => m.RoleName, "", new { @class = "form-control", @disabled = "disabled", @type = "text", @style = "width:80%;" })
+                            @Html.HiddenFor(m => m.RoleId)
+                            @Html.ValidationMessageFor(m => m.RoleId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ManagerId, htmlAttributes: new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(m => m.Manager, "", new { @class = "form-control", @disabled = "disabled", @type = "text", @style = "width:80%;" })
+                            @Html.HiddenFor(m => m.ManagerId)
+                            @Html.ValidationMessageFor(m => m.ManagerId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.SupervisorId, htmlAttributes: new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(m => m.Supervisor, "", new { @class = "form-control", @disabled = "disabled", @type = "text", @style = "width:80%;" })
+                            @Html.HiddenFor(m => m.SupervisorId)
+                            @Html.ValidationMessageFor(m => m.SupervisorId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--End row-->
+
+    <div id="space"> </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+        });
+    </script>
+}

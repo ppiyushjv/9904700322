@@ -1,0 +1,47 @@
+﻿@model MOSSWORKLOG.Areas.Document.Models.KeywordModel
+
+<!-- modal start -->
+<div class="modal fade" id="modelKeyword" role="dialog" aria-hidden="true">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>    
+                @if (!Model.IsEdit)
+                {
+                    <h4 class="modal-title">Add Keyword</h4>
+                }
+                else
+                {
+                    <h4 class="modal-title">Edit Keyword</h4>
+                }
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("CreateKeyword", "Document", new { area = "Document" }, FormMethod.Post, new { @role = "form", @id = "frmCreateKeyword", @class = "form-horizontal" }))
+                {
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        @Html.HiddenFor(m => m.Id)
+                        @Html.HiddenFor(m => m.IsEdit)
+
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.KeyWordName, htmlAttributes: new { @class = "col-md-3 control-label"   })
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(m => m.KeyWordName, "", new { @class = "form-control", @type = "text", @autofocus = "autofocus", @style = "width:80%;" })
+                                    @Html.ValidationMessageFor(m => m.KeyWordName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                }
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="submit" accesskey="s" id="btnCreateKeyword" form="frmCreateKeyword">Save changes</button>
+                <button data-dismiss="modal" class="btn btn-default" accesskey="c" type="button">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- modal end -->

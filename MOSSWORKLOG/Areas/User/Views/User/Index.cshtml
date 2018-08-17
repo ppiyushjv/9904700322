@@ -1,0 +1,112 @@
+﻿@model MOSSWORKLOG.Areas.User.Models.UserViewModel
+
+@section Styles {
+    <link href="~/assets/plugins/select2/css/select2.css" rel="stylesheet" type="text/css" />
+}
+
+@{
+    Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
+}
+                    
+    <!--Start Page Title-->
+    <div class="page-title-box">
+        <h4 class="page-title">User</h4>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new { area = "" })">Home</a>
+            </li>
+
+            <li class="active">
+                User
+            </li>
+        </ol>
+        <div class="clearfix"></div>
+    </div>
+    <!--End Page Title-->
+
+    <a class="aAddUser btn btn-info" data-toggle="modal" href="#" accesskey="a">
+        <i class="fa fa-plus"></i> Add User
+    </a>
+    
+    <!--Start row-->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="white-box">
+                <div class="table-responsive">
+                    <table id="tblDatatable" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th> User Name </th>
+                                <th> Full Name </th>
+                                <th> Mobile </th>
+                                <th> Email </th>
+                                <th> Role </th>
+                                <th style="width:10%">Action </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var user in Model.Users)
+                            {
+                                <tr>
+                                    <td >@user.UserName</td>
+                                    <td >@user.FullName</td>
+                                    <td> @user.Mobile</td>
+                                    <td> @user.Email</td>
+                                    <td> @user.RoleName</td>
+                                    <td style="width:10%">
+                                        <a data-id=@user.UserId class="aEditUser btn btn-primary">
+                                            <span class="fa fa-edit"></span>
+                                        </a>
+                                        <a data-id=@user.UserId class="aRemoveUser btn btn-danger" data-placement="left" data-toggle="confirmation" data-title="Remove?, Sure??">
+                                            <span class="fa fa-remove"></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End row-->
+
+
+<div id="space"> </div>
+
+@section Scripts {
+    <script src="~/assets/plugins/select2/js/select2.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+                
+            $(".aAddUser").click(function () {
+                var url = window.g_baseUrl + "User/User/ViewUser/";
+                $('#space').load(url, function () {
+                    $('#modelUser').modal('show');
+                    $('.default-date-picker').datepicker({
+                        format: 'dd-mm-yyyy',
+                    });
+                    $(".select2").select2({ dropdownParent: $('#modelUser'), });
+                });
+            });
+          
+            $(".aRemoveUser").click(function () {
+                var url = window.g_baseUrl + "User/User/DeleteUser/";
+                url = url + $(this).data("id");
+                location.href = url;
+            });
+
+            $(".aEditUser").click(function () {
+                var url = window.g_baseUrl + "User/User/ViewUser/";
+                url = url + $(this).data("id");
+                $('#space').load(url, function () {
+                    $('#modelUser').modal('show');
+                    $('.default-date-picker').datepicker({
+                        format: 'dd-mm-yyyy',
+                    });
+                    $(".select2").select2({ dropdownParent: $('#modelUser'), });
+                });
+            });
+        });
+    </script>
+}

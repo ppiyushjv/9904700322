@@ -1,0 +1,266 @@
+﻿@using MOSSWORKLOG.Models;
+@model LoginViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="utf-8" />
+    <title>Login | MOSS WORK LOG</title>
+
+    <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    
+    <!--Favicon -->
+    <link rel="icon" href="~/assets/images/favicon.png" type="image/png">
+    <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/plugins/metis-menu/metisMenu.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/nanoscroller.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/icons.css" rel="stylesheet" type="text/css" >
+    <link href="~/assets/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/responsive.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/plugins/toast-notification/toastr.min.css" rel="stylesheet" type="text/css" />
+    <style>
+        .forget-form {
+            display: none;
+        }
+    </style>
+    </head>
+    
+    <body class="fixed-top">
+      <!--Start Page loader -->
+      <div id="pageloader">   
+            <div class="loader">
+              <img src="~/assets/images/progress.gif" alt='loader' />
+            </div>
+       </div>
+       <!--End Page loader -->
+       
+      <!--Start login Section-->
+      <section class="bg-main full-height">
+       <div class="container">
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @role = "form",  @class = "login-form" ,@id = "frmLogin" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="row">
+                    <div class="reg-wrapper">
+                    <div class="reg-inner space-inner">
+                       
+                       <div class="logo">
+                         <img src="~/assets/images/logo.png"  alt="logo"/>
+                       </div>
+                   		
+                   		<h2 class="header-title font-22 text-center m-b-35">Login</h2>
+                           @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    
+
+                           <div class="form-group">
+                               @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @type = "text", @autocomplete = "off", @placeholder = "UserName" })
+                               @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                           </div>
+
+                           <div class="form-group">
+                               <label class="control-label visible-ie8 visible-ie9">Password</label>
+                               @Html.PasswordFor(m => m.Password, new { @class = "form-control", type = "password", @autocomplete = "off", @placeholder = "Password" })
+                               @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                           </div>
+
+
+                       <div class="form-actions">
+                           <div class="form-group m-t-30 clearfix">
+                               <div class="pull-left">
+                                   <label class="rememberme check mt-checkbox mt-checkbox-outline">
+                                       @Html.CheckBoxFor(m => m.RememberMe) Remember
+                                       <span></span>
+                                   </label>
+                                    @*<div class="checkbox">
+                                       @Html.CheckBoxFor(m => m.RememberMe)
+                                       <label for="checkbox-1">Remember me</label>
+                                   </div>*@
+                               </div>
+
+                               <div class="pull-right">
+                                   <a href="#" id="forget-password">Forgot Password?</a>
+                               </div>
+                           </div>
+
+                           <div class="form-group">
+                               <button type="submit" id="btnLogin" form="frmLogin" class="btn btn-lg btn-primary btn-block">  <i class="icon-lock "></i>Login</button>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+                </div>
+            }
+
+           @using (Html.BeginForm("Forget", "Account", "" , FormMethod.Post, new { @id = "frmforget", @class = "forget-form" , role = "form" }))
+           {
+               @Html.AntiForgeryToken()
+
+                <div class="row">
+                    <div class="reg-wrapper">
+                        <div class="reg-inner space-inner">
+                        <div class="logo">
+                            <img src="~/assets/images/logo.png" alt="logo" />
+                        </div>
+
+                        <h2 class="header-title font-22 text-center m-b-35">Forget Password ?</h2>
+                        <p> Enter your e-mail address below to reset your password. </p>
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.ForgetUserName, new { @class = "form-control", @type = "text", @autocomplete = "off", @placeholder = "User Name" })
+                            @Html.ValidationMessageFor(m => m.ForgetUserName, "", new { @class = "text-danger" })
+                        </div>
+
+
+                        <div class="form-actions">
+                            <div class="form-group m-t-30 clearfix">
+                                <div class="pull-right">
+                                    <a href="#" id="back-btn">Back</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" id="btnForget" form="frmforget" class="btn btn-lg btn-primary btn-block">  <i class="icon-lock "></i>Submit</button>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+           }
+
+      </div>
+
+
+     </section>
+    <!--End login Section-->
+
+     <!--JQUERY SCRIPTS-->
+	<script type="text/javascript" src="~/assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="~/assets/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/assets/plugins/metis-menu/metisMenu.min.js"></script>
+    <script type="text/javascript" src="~/assets/js/jquery.nicescroll.min.js"></script>
+    <script type="text/javascript" src="~/assets/js/jquery.slimscroll.js"></script>
+    <script type="text/javascript" src="~/assets/plugins/toast-notification/toastr.min.js"></script>
+    <script type="text/javascript">
+        $(window).load(function () {
+            $("#pageloader").delay(1000).fadeOut("slow");
+        });
+
+        $(document).ready(function () {
+            window.g_baseUrl = '@Url.Content("~")';
+
+            /*Content  height*/
+            function setHeight() {
+                windowHeight = $(window).innerHeight() - 100;
+                $('.content-main').css('min-height', windowHeight);
+            };
+
+            setHeight();
+
+            $(window).resize(function () {
+                setHeight();
+            });
+
+            $('.sidebar-nav').slimScroll({
+                position: 'right',
+                color: '#f2f2f2',
+                height: '100%',
+                railVisible: true,
+                alwaysVisible: false
+            });
+
+            $('#forget-password').click(function () {
+                $('.login-form').hide();
+                $('.forget-form').show();
+            });
+
+            $('#back-btn').click(function () {
+                $('.login-form').show();
+                $('.forget-form').hide();
+            });
+
+            var message = '@ViewBag.Message';
+            var type = '@ViewBag.MessageType';
+            if (message.length > 0) {
+                if (type == 'ERROR') toastr.error(message);
+                else toastr.info(message);
+            }
+        });
+
+        /*navigation bart*/
+        !function ($) {
+            "use strict";
+            $('.sidebar-main-toggle').click(function () {
+                if ($("body.fixed-top").hasClass("collapse-navbar")) {
+                    $('.sidebar-nav').slimScroll({
+                        destroy: true
+                    });
+
+                    $(".sidebar-nav, .slimScrollDiv").css("overflow", "visible").parent().css("overflow", "visible");
+                }
+                else {
+                    $('.sidebar-nav').slimScroll({
+                        position: 'right',
+                        height: '100%',
+                        railVisible: true,
+                        alwaysVisible: true
+                    });
+                }
+            });
+
+            $('.navbar-small').on('click', function () {
+                if ($(window).width() > 991) {
+                    $("body").toggleClass("collapse-navbar");
+                }
+                else {
+                    $("body").toggleClass("collapse-navbar-show");
+                }
+
+            });
+
+
+            $(function () {
+                // niceScroll
+                $(".scroll").niceScroll({
+                    cursorcolor: "#000000",
+                    cursoropacitymax: 0.3,
+                    cursorwidth: "2px",
+                    cursorborder: "2px solid transparent",
+                    cursordragontouch: true, // drag cursor in touch / touchbehavior mode also
+                    zindex: "10", // change z-index for scrollbar div
+                    cursorborderradius: "10px",
+                });
+                $(".inbox-scroll-list").niceScroll({ styler: "fb", cursorcolor: "#ccc", cursorwidth: '5', cursorborderradius: '0px', background: '#ccc', spacebarenabled: false, cursorborder: '2' });
+                $(".chat-scroll-list").niceScroll({ styler: "fb", cursorcolor: "#ccc", cursorwidth: '5', cursorborderradius: '0px', background: '#ccc', spacebarenabled: false, cursorborder: '2' });
+                function fullheight() {
+                    windowHeight = $(window).innerHeight();
+                    $('.full-height').css('min-height', windowHeight);
+                };
+                fullheight();
+                $(window).resize(function () {
+                    fullheight();
+                });
+                //tooltip
+                $(function () {
+                    $('[data-toggle="tooltip"]').tooltip()
+                })
+
+                // Initialize Popovers
+                jQuery('[data-toggle="popover"], .js-popover').popover({
+                    container: 'body',
+                    animation: true,
+                    trigger: 'hover'
+                });
+
+                /*Left Side Menu*/
+                $('#side-menu').metisMenu();
+            });
+        }(window.jQuery);
+    </script>
+    </body>
+
+</html>

@@ -1,0 +1,78 @@
+﻿@{
+    Layout = "~/Areas/VisitorLog/Views/Shared/_Layout.cshtml";
+}
+
+                    
+<!--Start Page Title-->
+<div class="page-title-box">
+    <h4 class="page-title">Visitor Log</h4>
+    <ol class="breadcrumb">
+        <li>
+            <a href="@Url.Action("Index", "Home", new { area = "" })">Home</a>
+        </li>
+        <li class="active">
+            Visitor Log
+        </li>
+    </ol>
+    <div class="clearfix"></div>
+</div>
+<!--End Page Title-->
+
+<a class="aAddCCTV btn btn-info" data-toggle="modal" href="#">
+    <i class="fa fa-plus"></i> Add Visitor
+</a>
+    
+<!--Start row-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="white-box">
+            <div class="table-responsive">
+                <table id="tblDatatable" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th> Date </th>
+                            <th> Visitor Name </th>
+                            <th> Reason </th>
+                            <th> In Time </th>
+                            <th> Out Time </th>
+                            <th style="width:13%"> Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End row-->
+
+<div id="space"> </div>
+
+@section Scripts {
+<script type="text/javascript">
+    $(document).ready(function () {
+        
+        $(".aAddCCTV").click(function () {
+            var url = window.g_baseUrl + "CCTVLog/CCTVLog/ViewCCTV/";
+            $('#space').load(url, function () {
+                $('#modelCCTV').modal('show');
+            });
+        });
+
+        $(".aRemoveCCTV").click(function () {
+            var url = window.g_baseUrl + "CCTVLog/CCTVLog/DeleteCCTV/";
+            url = url + $(this).data("id");
+            location.href = url;
+        });
+
+        $(".aEditCCTV").click(function () {
+            var url = window.g_baseUrl + "CCTVLog/CCTVLog/ViewCCTV/";
+            url = url + $(this).data("id");
+            $('#space').load(url, function () {
+                $('#modelCCTV').modal('show');
+            });
+        });
+    });
+</script>
+}

@@ -1,0 +1,30 @@
+﻿@model MOSSWORKLOG.Models.MenuModel
+
+@{
+    foreach (var menu in Model.Menu)
+    {
+        if ((bool)menu.IsSub == false)
+        {
+            if (!menu.Action.Contains("#"))
+            {
+                <li><a href="@Url.Action(menu.Action, menu.Controller, new { area = menu.Area })"><i class='@menu.IconClass'></i><span class="menu-label">@menu.Lable.Trim()</span></a></li>
+            }
+            else
+            {
+                <li><a href="#"><i class='@menu.IconClass'></i><span class="menu-label">@menu.Lable</span></a></li>
+            }
+        }
+        else
+        {
+
+            <li id=@menu.SubId>
+                <a href="#"><i class='@menu.IconClass'></i><span class="menu-label">@menu.Lable</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-sub collapse">
+
+                    @Html.Action("GetMenu", "Home", new { MainId = menu.SubId, area = "" })
+
+                </ul>
+            </li>
+        }
+    }
+}

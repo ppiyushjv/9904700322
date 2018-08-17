@@ -1,0 +1,94 @@
+﻿@model MOSSWORKLOG.Areas.Asset.Models.ContractViewModel
+
+@{
+    Layout = "~/Areas/Asset/Views/Shared/_Layout.cshtml";
+}
+
+<!--Start Page Title-->
+<div class="page-title-box">
+    <h4 class="page-title">Contract</h4>
+    <ol class="breadcrumb">
+        <li>
+            <a href="@Url.Action("Index", "Home", new { area = "" })">Home</a>
+        </li>
+        <li class="active">Contract</li>
+    </ol>
+    <div class="clearfix"></div>
+</div>
+<!--End Page Title-->
+
+<a class="aAddContract btn btn-info" data-toggle="modal" href="#">
+    <i class="fa fa-plus"></i> Add Contract
+</a>
+
+<!--Start row-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="white-box">
+            <div class="table-responsive">
+                <table id="tblDatatable" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th> Vendor Name</th>
+                            <th> Start Date</th>
+                            <th> End Date</th>
+                            <th> Asset</th>
+                            <th style="width:10%"> Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var contract in Model.Contracts)
+                        {
+                            <tr>
+                                <td>@contract.VendorName</td>
+                                <td>@contract.StartDate.Value.ToString("MM/dd/yyyy")</td>
+                                <td>@contract.EndDate.Value.ToString("MM/dd/yyyy")</td>
+                                <td>@contract.Asset</td>
+
+                                <td style="width:10%">
+                                    <a data-id=@contract.ContractId class="aEditContract btn btn-primary" title="Edit Contract">
+                                        <span class="fa fa-edit"></span>
+                                    </a>
+                                    <a data-id=@contract.ContractId class="aRemoveContract btn btn-danger" title="Delete Contract" data-placement="top" data-toggle="confirmation" data-title="Remove?, Sure??">
+                                        <span class="fa fa-remove"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End row-->
+
+<div id="space"> </div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $(".aAddContract").click(function () {
+                var url = window.g_baseUrl + "Asset/Contract/ViewContract/";
+                $('#space').load(url, function () {
+                    $('#modelContract').modal('show');
+                });
+            });
+
+            $(".aRemoveContract").click(function () {
+                var url = window.g_baseUrl + "Asset/Contract/DeleteContract/";
+                url = url + $(this).data("id");
+                location.href = url;
+            });
+
+            $(".aEditContract").click(function () {
+                var url = window.g_baseUrl + "Asset/Contract/ViewContract/";
+                url = url + $(this).data("id");
+                $('#space').load(url, function () {
+                    $('#modelContract').modal('show');
+                });
+            });
+        });
+    </script>
+}

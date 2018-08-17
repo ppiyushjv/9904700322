@@ -1,0 +1,388 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    @if (string.IsNullOrEmpty(ViewBag.Title))
+    {
+        <title> MOSS WORK LOG </title>
+    }
+    else
+    {
+        <title> @ViewBag.Title  - MOSS WORK LOG </title>
+    }
+    <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
+    <link rel="icon" href="~/assets/images/favicon.png" type="image/png">
+
+    <!-- BEGIN PAGE LEVEL STYLES -->
+    <!-- END PAGE LEVEL STYLES -->
+    <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/plugins/metis-menu/metisMenu.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/nanoscroller.css" rel="stylesheet" type="text/css" />
+
+    <link href="~/assets/css/icons.css" rel="stylesheet">
+    <link href="~/assets/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/responsive.css" rel="stylesheet" type="text/css" />
+
+    <link href="~/assets/plugins/datatables/datatables.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/plugins/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
+    <link href="~/assets/plugins/toast-notification/toastr.min.css" rel="stylesheet" type="text/css" />
+
+    <link href="~/assets/plugins/select2/css/select2.css" rel="stylesheet" type="text/css" />
+
+    <style>
+        .dataTables_filter {
+            white-space: nowrap;
+        }
+
+        .dataTables_filter label, .dataTables_filter input {
+            display: inline-block;
+        }
+
+        .dataTables_length {
+            white-space: nowrap;
+        }
+
+        .dataTables_length label, .dataTables_length select {
+            display: inline-block;
+        }
+    </style>
+
+    @RenderSection("styles", required: false)
+
+</head>
+
+<body class="fixed-top">
+    <!--Start Page loader -->
+    <div id="pageloader">
+        <div class="loader">
+            <img src="~/assets/images/progress.gif" alt='loader' />
+        </div>
+    </div>
+    <!--End Page loader -->
+    <div id="wrapper">
+        <div class="page-header navbar navbar-fixed-top">
+            <div class="page-header-main">
+                <div class="logo">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a href="@Url.Action("Index", "Home", new { area = "" })">
+                                <img src="~/assets/images/dashlogo.png" alt="Logo" class="img-responsive" />
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <h1 style="align-content:center"> MOSS</h1>
+                        </div>
+                    </div>
+                </div> <!--/.logo-->
+
+                <div class="sidebar-main-toggle">
+                    <a href="javascript:;" class="navbar-small pull-left "><i class="fa fa-bars"></i></a>
+                </div> <!--/.menu-toggler-->
+
+                <!--Start Right Menu-->
+                <div class="right-menu">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown dropdown-usermenu">
+                            <a href="#" class=" fa fa-user-circle" dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                @if (!ReferenceEquals((System.Security.Claims.ClaimsIdentity)User.Identity, null) && !ReferenceEquals(((System.Security.Claims.ClaimsIdentity)User.Identity).FindFirst(System.Security.Claims.ClaimTypes.Role), null))
+                                {
+
+                                    <span class="hidden-sm hidden-xs">Hello, @(((System.Security.Claims.ClaimsIdentity)User.Identity).Name)  </span>
+                                }
+                                <span class="caret hidden-sm hidden-xs"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+                                <li><a href="@Url.Action("UserProfile", "Account", new { area = "" })"><i class="fa fa-user"></i>  Profile</a></li>
+                                <li class="divider"></li>
+                                <li><a href="@Url.Action("Logoff", "Account", new { area = "" })"><i class="fa fa-sign-out"></i> Log Out</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!--End Right Menu-->
+            </div>
+        </div>
+        <!--End page-header-->
+
+        <div class="clearfix"> </div>
+
+        <!--Start Mian page container-->
+        <div class="main-container">
+            <div class="sidebar-main">
+                <nav class="sidebar-nav">
+                    <ul class="metismenu" id="side-menu">
+                        @Html.Action("GetMenu", "Home", new { MainId = "000", area = "" })
+                        <li>
+                            <a href="/Download/MOSSWORKLOGSETUP.MSI">
+                                <i class="fa fa-cloud-download"></i>
+                                <span class="menu-label">Download</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <!-- End Sidebar Main-->
+            <!--Start wrapperr-->
+            <div class="wrapper">
+
+                @RenderBody()
+
+            </div>
+            <!--End content-main-->
+            <!--Start  Footer -->
+            <footer class="footer-main"> 2018 &copy; Milee Outsourcing & Staffing Services, LLC.</footer>
+            <!--End footer -->
+        </div>  <!--/.wrapper-->
+
+    </div> <!--/.page-container-->
+
+    <!--End wrapper-->
+    <!--JQUERY SCRIPTS-->
+    <script type="text/javascript" src="~/assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="~/assets/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/assets/js/jquery.blockui.min.js"></script>
+    <script type="text/javascript" src="~/assets/js/jquery.nicescroll.min.js"></script>
+    <script type="text/javascript" src="~/assets/js/jquery.slimscroll.js"></script>
+    <script type="text/javascript" src="~/assets/plugins/knob/jquery.knob.min.js"></script>
+    <script type="text/javascript" src="~/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="~/assets/plugins/metis-menu/metisMenu.min.js"></script>
+
+    <script type="text/javascript" src="~/assets/plugins/jquery-validation/js/jquery.validate.js"></script>
+    <script type="text/javascript" src="~/assets/plugins/jquery-validation/js/additional-methods.min.js"></script>
+    <script type="text/javascript" src="~/assets/plugins/jquery-validation/js/jquery.validate.unobtrusive.js"></script>
+
+    <script type="text/javascript" src="~/assets/plugins/bootstrap-sessiontimeout/bootstrap-session-timeout.js"></script>
+    <!-- BEGIN PAGE LEVEL SCRIPTS -->
+    <script type="text/javascript" src="~/assets/plugins/bootstrap-confirmation/bootstrap-confirmation.js"></script>
+    <script type="text/javascript" src="~/assets/plugins/datatables/datatables.all.min.js"></script>
+    <script type="text/javascript" src="~/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <!-- END PAGE LEVEL SCRIPTS -->
+    <script type="text/javascript" src="~/assets/plugins/input-mask/input-mask-custom.js"></script>
+    <script type="text/javascript" src="~/assets/plugins/input-mask/jquery.mask.min.js"></script>
+
+    <script src="~/assets/plugins/bootstrap-daterangepicker/moment.js"></script>
+
+    <script type="text/javascript" src="~/assets/plugins/toast-notification/toastr.min.js"></script>
+
+    <script type="text/javascript" src="~/assets/plugins/select2/js/select2.js"></script>
+
+    <script type="text/javascript">
+
+        $(window).load(function () {
+            $("#pageloader").delay(0).fadeOut("slow")
+        })
+
+        $(document).ready(function () {
+
+            window.g_baseUrl = '@Url.Content("~")';
+
+            var path = window.location.pathname + window.location.search;
+
+            $(document).find('[data-toggle=confirmation]').confirmation({
+                rootSelector: '[data-toggle=confirmation]',
+            });
+
+            $(".metismenu a").each(function () {
+                var href = $(this).attr('href');
+                if (href != "#") {
+                    if (path === href) {
+                        var ullist = $(this).closest("li").closest('ul')[0]
+                        if (ullist.className == "nav nav-sub collapse") {
+                            $(this).closest("li").closest('ul').slideToggle();
+                        }
+                        $(this).closest("li").removeClass("active");
+                        $(this).closest("li").addClass("sub-active");
+                        return false;
+                    }
+                }
+            });
+
+            $(window).on('shown.bs.modal', function () {
+
+                var parentModal = $('div.modal');
+
+                $('.default-date-picker').each(function () {
+                    $(this).datepicker({
+                        format: 'mm/dd/yyyy',
+                        autoclose: true
+                    });
+                });
+
+                $('.select2').each(function () {
+                    var placeHolder = "Select.."
+                    var value = $(this).val();
+                    //$(this).select2();
+
+                    $(this).select2({
+                        placeholder: placeHolder,
+                        allowClear: true,
+                    });
+                });
+
+                jQuery.validator.unobtrusive.parse(parentModal);
+            });
+
+            var oTable = $('#tblDatatable').dataTable({
+                // Internationalisation. For more info refer to http://datatables.net/manual/i18n
+                "language": {
+                    "aria": {
+                        "sortAscending": ": activate to sort column ascending",
+                        "sortDescending": ": activate to sort column descending"
+                    },
+                    "emptyTable": "No data available in table",
+                    "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                    "infoEmpty": "No records found",
+                    "infoFiltered": "(filtered1 from _MAX_ total entries)",
+                    "lengthMenu": " _MENU_ Records",
+                    "search": "Search:",
+                    "zeroRecords": "No matching records found"
+                },
+                columnDefs: [
+                       { orderable: false, targets: -1 }
+                    ],
+                buttons: [
+                    { extend: 'copy', className: 'btn btn-inverse round' },
+                    { extend: 'pdf', className: 'btn btn-inverse round'},
+                    { extend: 'excel', className: 'btn btn-inverse round'},
+                    {
+                        extend: 'print', className: 'btn btn-inverse round',
+                        message: "Printed on : " + moment().format('DD/MM/YYYY HH:mm'),
+                        customize: function (win) {
+                            //$(win.document.body)
+                            //    .css('font-size', '10pt')
+                            //    .prepend(
+                            //             '<img src="http://mossworklog.com/assets/images/logo.png" style="position: ; top:0; left:0;" />'
+                            //           );
+
+                            //$(win.document.body).find('table').addClass('compact').css('font-size', 'inherit');
+                        }
+                    }
+                ],
+                responsive: true,
+                "order": [
+                    [0, 'asc']
+                ],
+                "lengthMenu": [
+                    [5, 10, 15, 20, 50, 100, -1],
+                    [5, 10, 15, 20, 50, 100, "All"] // change per page values here
+                ],
+                "pageLength": 10,
+                dom: "<'row'<'col-md-6'f><'col-md-6'B>r><'table-scrollable't><'row'<'col-md-2'l><'col-md-5'i><'col-md-5'p>>", // horizobtal scrollable datatable
+                //dom: "Bfrtip" // horizobtal scrollable datatable
+            });
+
+            function setHeight() {
+                windowHeight = $(window).innerHeight() - 100;
+                $('.content-main').css('min-height', windowHeight);
+            };
+
+            setHeight();
+
+            $(window).resize(function () {
+                setHeight();
+            });
+
+            $('.sidebar-nav').slimScroll({
+                position: 'right',
+                color: '#f2f2f2',
+                height: '100%',
+                railVisible: true,
+                alwaysVisible: false
+            });
+
+            $.sessionTimeout({
+                title: 'Session Timeout Notification',
+                message: 'Your session is about to expire.',
+                keepAliveUrl: '',
+                redirUrl: "/Account/Logoff",
+                logoutUrl: "/Account/Logoff",
+                warnAfter: 500000, //warn after 5 seconds
+                redirAfter: 600000, //warn after 5 seconds
+                ignoreUserActivity: true,
+                countdownMessage: 'Redirecting in {timer} seconds.',
+                countdownBar: true
+            });
+
+        });
+
+        $.fn.modal.prototype.constructor.Constructor.DEFAULTS.backdrop = 'static';
+        //$.fn.modal.prototype.constructor.Constructor.DEFAULTS.keyboard = false;
+
+
+        /*navigation bart*/
+        !function ($) {
+            "use strict";
+            $('.sidebar-main-toggle').click(function () {
+                if ($("body.fixed-top").hasClass("collapse-navbar")) {
+                    $('.sidebar-nav').slimScroll({
+                        destroy: true
+                    });
+                    $(".sidebar-nav, .slimScrollDiv").css("overflow", "visible").parent().css("overflow", "visible");
+                }
+                else {
+                    $('.sidebar-nav').slimScroll({
+                        position: 'right',
+                        height: '100%',
+                        railVisible: true,
+                        alwaysVisible: true
+                    });
+                }
+            });
+
+            $('.navbar-small').on('click', function () {
+                if ($(window).width() > 991) {
+                    $("body").toggleClass("collapse-navbar");
+                }
+                else {
+                    $("body").toggleClass("collapse-navbar-show");
+                }
+            });
+
+            $(function () {
+                // niceScroll
+                $(".scroll").niceScroll({
+                    cursorcolor: "#000000",
+                    cursoropacitymax: 0.3,
+                    cursorwidth: "10px",
+                    cursorborder: "2px solid transparent",
+                    cursordragontouch: true, // drag cursor in touch / touchbehavior mode also
+                    zindex: "10", // change z-index for scrollbar div
+                    cursorborderradius: "10px",
+                });
+                $(".inbox-scroll-list").niceScroll({ styler: "fb", cursorcolor: "#ccc", cursorwidth: '5', cursorborderradius: '0px', background: '#ccc', spacebarenabled: false, cursorborder: '2' });
+                $(".chat-scroll-list").niceScroll({ styler: "fb", cursorcolor: "#ccc", cursorwidth: '5', cursorborderradius: '0px', background: '#ccc', spacebarenabled: false, cursorborder: '2' });
+
+                function fullheight() {
+                    windowHeight = $(window).innerHeight();
+                    $('.full-height').css('min-height', windowHeight);
+                };
+
+                fullheight();
+
+                $(window).resize(function () {
+                    fullheight();
+                });
+                //tooltip
+                $(function () {
+                    $('[data-toggle="tooltip"]').tooltip()
+                })
+
+                // Initialize Popovers
+                jQuery('[data-toggle="popover"], .js-popover').popover({
+                    container: 'body',
+                    animation: true,
+                    trigger: 'hover'
+                });
+
+                /*Left Side Menu*/
+                $('#side-menu').metisMenu();
+            });
+        }(window.jQuery);
+
+    </script>
+
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

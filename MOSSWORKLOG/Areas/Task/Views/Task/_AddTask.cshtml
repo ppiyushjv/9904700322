@@ -1,0 +1,117 @@
+﻿@model MOSSWORKLOG.Areas.Task.Models.TaskModel
+@{
+    Layout = null;
+}
+
+<!-- modal start -->
+<div class="modal fade" id="modelTask" role="dialog" aria-hidden="true">
+    <div class="modal-dialog model-sg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                @if (!Model.IsEdit)
+                {
+                    <h4 class="modal-title">Add Task</h4>
+                }
+                else
+                {
+                    <h4 class="modal-title">Edit Task</h4>
+                }
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("CreateTask", "Task", new { area = "Task" }, FormMethod.Post, new { @role = "form", @id = "frmCreateTask", @class = "form-horizontal" }))
+                {
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    @Html.HiddenFor(m => m.TaskId)
+                    @Html.HiddenFor(m => m.IsEdit)
+
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.ProjectId, htmlAttributes: new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+                                    @Html.DropDownListFor(m => m.ProjectId, Model.AllProject, new { @class = "form-control select2", @type = "text", @autofocus = "autofocus", @style = "width:80%;"  })
+                                    @Html.ValidationMessageFor(m => m.ProjectId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.TaskName, htmlAttributes: new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(m => m.TaskName, "", new { @class = "form-control", @type = "text", @style = "width:80%;" })
+                                    @Html.ValidationMessageFor(m => m.TaskName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.TaskDescription, htmlAttributes: new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(m => m.TaskDescription, "", new { @class = "form-control", @type = "text", @style = "width:80%;" })
+                                    @Html.ValidationMessageFor(m => m.TaskDescription, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Email, htmlAttributes: new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(m => m.Email, "", new { @class = "form-control", @type = "text", @style = "width:80%;" })
+                                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.TaskFrequency, htmlAttributes: new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+                                    @Html.DropDownListFor(m => m.TaskFrequency, Model.AllTaskFrequency, new { @class = "form-control select2", @type = "text", @style = "width:70%;" })
+                                    @Html.ValidationMessageFor(m => m.TaskFrequency, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.TaskTick, htmlAttributes: new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+                                    <div id="tickmonthly">
+                                        @Html.ListBoxFor(m => m.TaskTickselect, Model.AllTaskTickMonthly, new { @class = "form-control select2 tickmonthly", @type = "text", @style = "width:70%;", @multiple = "multiple" })
+                                    </div>
+                                    <div id="tickweekly">
+                                        @Html.ListBoxFor(m => m.TaskTickselect, Model.AllTaskTickWeekly, new { @class = "form-control select2 tickweekly", @type = "text", @style = "width:70%;", @multiple = "multiple" })
+                                    </div>
+                                    @Html.ValidationMessageFor(m => m.TaskTick, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group clearfix">
+                                @Html.LabelFor(m => m.TaskStartDate, htmlAttributes: new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+                                    <div class="input-daterange input-group" id="date-range">
+                                        @Html.TextBoxFor(m => m.TaskStartDate, "", new { @class = "form-control default-date-picker", @type = "text", @style = "width:80%;" })
+                                        <span class="input-group-addon no-border ">End Date</span>
+                                        @Html.TextBoxFor(m => m.TaskEndDate, "", new { @class = "form-control default-date-picker", @type = "text", @style = "width:80%;" })
+                                        @Html.ValidationMessageFor(m => m.TaskStartDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                }
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="submit" id="btnCreateClient" form="frmCreateTask">Save changes</button>
+                <button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- modal end -->

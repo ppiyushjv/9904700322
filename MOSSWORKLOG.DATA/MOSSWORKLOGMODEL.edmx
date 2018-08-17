@@ -1,0 +1,961 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MossWorkLogDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="PasswordResetRequests">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RequestId" Type="nvarchar(max)" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Timestamp" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Type" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="CatId" Type="int" />
+        </EntityType>
+        <EntityType Name="tblClient">
+          <Key>
+            <PropertyRef Name="ClientId" />
+          </Key>
+          <Property Name="ClientId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ShortName" Type="varchar" MaxLength="10" />
+          <Property Name="ClientName" Type="varchar" MaxLength="100" />
+          <Property Name="Email" Type="varchar" MaxLength="1000" />
+          <Property Name="Contact" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="tblDocuments">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+          <Property Name="SubCategoryId" Type="int" Nullable="false" />
+          <Property Name="DocumentPath" Type="varchar" MaxLength="50" />
+          <Property Name="Descriptions" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="tblMenu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MainId" Type="varchar" MaxLength="3" />
+          <Property Name="SubId" Type="varchar" MaxLength="3" />
+          <Property Name="Lable" Type="varchar" MaxLength="50" />
+          <Property Name="Action" Type="varchar" MaxLength="50" />
+          <Property Name="Controller" Type="varchar" MaxLength="50" />
+          <Property Name="Area" Type="varchar" MaxLength="50" />
+          <Property Name="IconClass" Type="varchar" MaxLength="50" />
+          <Property Name="UserRole" Type="varchar" MaxLength="50" />
+          <Property Name="SerialNo" Type="int" />
+          <Property Name="IsSub" Type="bit" />
+        </EntityType>
+        <EntityType Name="tblProject">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+          </Key>
+          <Property Name="ProjectId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClientId" Type="int" />
+          <Property Name="ProjectName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="Email" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="tblRole">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleDesc" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tblTask">
+          <Key>
+            <PropertyRef Name="TaskId" />
+          </Key>
+          <Property Name="TaskId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectId" Type="int" />
+          <Property Name="TaskName" Type="varchar" MaxLength="100" />
+          <Property Name="TaskDescription" Type="varchar(max)" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="UpdatedBy" Type="int" />
+          <Property Name="UpdatedOn" Type="datetime" />
+          <Property Name="ClientId" Type="int" />
+          <Property Name="TaskFrequency" Type="varchar" MaxLength="10" />
+          <Property Name="TaskTick" Type="varchar" MaxLength="10" />
+          <Property Name="TaskStartDate" Type="datetime" />
+          <Property Name="TaskEndDate" Type="datetime" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tblTaskTick">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TaskId" Type="int" />
+          <Property Name="TaskTick" Type="char" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="tblUserLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="TimeLog" Type="datetime" />
+          <Property Name="Type" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tblUserRoleAssign">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="ClientId" Type="int" />
+          <Property Name="ProjectId" Type="int" />
+          <Property Name="TaskId" Type="int" />
+        </EntityType>
+        <EntityType Name="tblUsers">
+          <Key>
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="FullName" Type="varchar" MaxLength="100" />
+          <Property Name="Mobile" Type="varchar" MaxLength="20" />
+          <Property Name="email" Type="varchar" MaxLength="100" />
+          <Property Name="Password" Type="varchar" MaxLength="100" />
+          <Property Name="RoleId" Type="int" />
+        </EntityType>
+        <EntityType Name="tblWorkLog">
+          <Key>
+            <PropertyRef Name="WorkLogId" />
+          </Key>
+          <Property Name="WorkLogId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TaskId" Type="int" />
+          <Property Name="CreatedById" Type="int" />
+          <Property Name="StartTime" Type="datetime" />
+          <Property Name="EndTime" Type="datetime" />
+          <Property Name="Duration" Type="decimal" Precision="6" Scale="2" />
+          <Property Name="Unit" Type="int" />
+          <Property Name="AverageTime" Type="decimal" Precision="6" Scale="2" />
+          <Property Name="SupApproval" Type="int" />
+          <Property Name="SupReviewBy" Type="int" />
+          <Property Name="SupRemark" Type="varchar(max)" />
+          <Property Name="SupSatisfaction" Type="int" />
+          <Property Name="ManApproval" Type="int" />
+          <Property Name="ManReviewBy" Type="int" />
+          <Property Name="ManRemark" Type="varchar(max)" />
+          <Property Name="ManSatisfaction" Type="int" />
+          <Property Name="ClientApproval" Type="int" />
+          <Property Name="ClientReviewBy" Type="int" />
+          <Property Name="ClientRemark" Type="varchar(max)" />
+          <Property Name="ClientSatisfaction" Type="int" />
+        </EntityType>
+        <Function Name="spCheckUserName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spClientAdd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ShortName" Type="varchar" Mode="In" />
+          <Parameter Name="ClientName" Type="varchar" Mode="In" />
+          <Parameter Name="ReturnValue" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="spClientUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ClientId" Type="int" Mode="In" />
+          <Parameter Name="ShortName" Type="varchar" Mode="In" />
+          <Parameter Name="ClientName" Type="varchar" Mode="In" />
+          <Parameter Name="ReturnValue" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="spGetClientList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ClientId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spGetProjectList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProjectId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spGetRoleList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="RoleId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spGetTaskList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TaskId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spGetUserList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spGetWorkLogList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="WorkLogId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spProjectAdd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ClientId" Type="int" Mode="In" />
+          <Parameter Name="ProjectName" Type="varchar" Mode="In" />
+          <Parameter Name="Description" Type="varchar(max)" Mode="In" />
+          <Parameter Name="ReturnValue" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="spProjectUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProjectId" Type="int" Mode="In" />
+          <Parameter Name="ClientId" Type="int" Mode="In" />
+          <Parameter Name="ProjectName" Type="varchar" Mode="In" />
+          <Parameter Name="Description" Type="varchar(max)" Mode="In" />
+          <Parameter Name="ReturnValue" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="spTaskAdd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProjectId" Type="int" Mode="In" />
+          <Parameter Name="TaskName" Type="varchar" Mode="In" />
+          <Parameter Name="TaskDescription" Type="varchar(max)" Mode="In" />
+          <Parameter Name="CreatedBy" Type="int" Mode="In" />
+          <Parameter Name="ReturnValue" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="spTaskUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TaskId" Type="int" Mode="In" />
+          <Parameter Name="ProjectId" Type="int" Mode="In" />
+          <Parameter Name="TaskName" Type="varchar" Mode="In" />
+          <Parameter Name="TaskDescription" Type="varchar(max)" Mode="In" />
+          <Parameter Name="UpdatedBy" Type="int" Mode="In" />
+          <Parameter Name="ReturnValue" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="spUserAdd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+          <Parameter Name="FullName" Type="varchar" Mode="In" />
+          <Parameter Name="Mobile" Type="varchar" Mode="In" />
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+          <Parameter Name="RoleId" Type="int" Mode="In" />
+          <Parameter Name="ReturnValue" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="spUserUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+          <Parameter Name="FullName" Type="varchar" Mode="In" />
+          <Parameter Name="Mobile" Type="varchar" Mode="In" />
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+          <Parameter Name="RoleId" Type="int" Mode="In" />
+          <Parameter Name="ReturnValue" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="spValidateLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spWorkLogAdd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TaskId" Type="int" Mode="In" />
+          <Parameter Name="CreatedById" Type="int" Mode="In" />
+          <Parameter Name="StartTime" Type="datetime" Mode="In" />
+          <Parameter Name="EndTime" Type="datetime" Mode="In" />
+          <Parameter Name="Duration" Type="decimal" Mode="In" />
+          <Parameter Name="Unit" Type="int" Mode="In" />
+          <Parameter Name="AverageTime" Type="decimal" Mode="In" />
+          <Parameter Name="ReturnValue" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="spWorkLogUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="WorkLogId" Type="int" Mode="In" />
+          <Parameter Name="TaskId" Type="int" Mode="In" />
+          <Parameter Name="CreatedById" Type="int" Mode="In" />
+          <Parameter Name="StartTime" Type="datetime" Mode="In" />
+          <Parameter Name="EndTime" Type="datetime" Mode="In" />
+          <Parameter Name="Duration" Type="decimal" Mode="In" />
+          <Parameter Name="Unit" Type="int" Mode="In" />
+          <Parameter Name="AverageTime" Type="decimal" Mode="In" />
+          <Parameter Name="ReturnValue" Type="int" Mode="InOut" />
+        </Function>
+        <EntityContainer Name="MossWorkLogDbModelStoreContainer">
+          <EntitySet Name="PasswordResetRequests" EntityType="Self.PasswordResetRequests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblCategory" EntityType="Self.tblCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblClient" EntityType="Self.tblClient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblDocuments" EntityType="Self.tblDocuments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblMenu" EntityType="Self.tblMenu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblProject" EntityType="Self.tblProject" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblRole" EntityType="Self.tblRole" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblTask" EntityType="Self.tblTask" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblTaskTick" EntityType="Self.tblTaskTick" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblUserLog" EntityType="Self.tblUserLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblUserRoleAssign" EntityType="Self.tblUserRoleAssign" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblUsers" EntityType="Self.tblUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblWorkLog" EntityType="Self.tblWorkLog" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MossWorkLogDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tblClient">
+          <Key>
+            <PropertyRef Name="ClientId" />
+          </Key>
+          <Property Name="ClientId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ShortName" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ClientName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Contact" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblProject">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+          </Key>
+          <Property Name="ProjectId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClientId" Type="Int32" />
+          <Property Name="ProjectName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblRole">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleDesc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblUser">
+          <Key>
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="RoleId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tblWorkLog">
+          <Key>
+            <PropertyRef Name="WorkLogId" />
+          </Key>
+          <Property Name="WorkLogId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TaskId" Type="Int32" />
+          <Property Name="CreatedById" Type="Int32" />
+          <Property Name="StartTime" Type="DateTime" Precision="3" />
+          <Property Name="EndTime" Type="DateTime" Precision="3" />
+          <Property Name="Duration" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="Unit" Type="Int32" />
+          <Property Name="AverageTime" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="SupApproval" Type="Int32" />
+          <Property Name="SupReviewBy" Type="Int32" />
+          <Property Name="SupRemark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SupSatisfaction" Type="Int32" />
+          <Property Name="ManApproval" Type="Int32" />
+          <Property Name="ManReviewBy" Type="Int32" />
+          <Property Name="ManRemark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ManSatisfaction" Type="Int32" />
+          <Property Name="ClientApproval" Type="Int32" />
+          <Property Name="ClientReviewBy" Type="Int32" />
+          <Property Name="ClientRemark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ClientSatisfaction" Type="Int32" />
+        </EntityType>
+        <EntityContainer Name="MossWorkLogDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblClients" EntityType="Self.tblClient" />
+          <EntitySet Name="tblProjects" EntityType="Self.tblProject" />
+          <EntitySet Name="tblRoles" EntityType="Self.tblRole" />
+          <EntitySet Name="tblUsers" EntityType="Self.tblUser" />
+          <EntitySet Name="tblWorkLogs" EntityType="Self.tblWorkLog" />
+          <FunctionImport Name="spCheckUserName" EntitySet="tblUsers" ReturnType="Collection(MossWorkLogDbModel.tblUser)">
+          <Parameter Name="UserName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spClientAdd">
+            <Parameter Name="ShortName" Mode="In" Type="String" />
+            <Parameter Name="ClientName" Mode="In" Type="String" />
+            <Parameter Name="ReturnValue" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spClientUpdate">
+            <Parameter Name="ClientId" Mode="In" Type="Int32" />
+            <Parameter Name="ShortName" Mode="In" Type="String" />
+            <Parameter Name="ClientName" Mode="In" Type="String" />
+            <Parameter Name="ReturnValue" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spGetClientList" ReturnType="Collection(MossWorkLogDbModel.spGetClientList_Result)">
+          <Parameter Name="ClientId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spGetProjectList" ReturnType="Collection(MossWorkLogDbModel.spGetProjectList_Result)">
+          <Parameter Name="ProjectId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spGetRoleList" ReturnType="Collection(MossWorkLogDbModel.spGetRoleList_Result)">
+          <Parameter Name="RoleId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spGetTaskList" ReturnType="Collection(MossWorkLogDbModel.spGetTaskList_Result)">
+          <Parameter Name="TaskId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spGetUserList" ReturnType="Collection(MossWorkLogDbModel.spGetUserList_Result)">
+          <Parameter Name="UserId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spGetWorkLogList" ReturnType="Collection(MossWorkLogDbModel.spGetWorkLogList_Result)">
+          <Parameter Name="WorkLogId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spProjectAdd">
+            <Parameter Name="ClientId" Mode="In" Type="Int32" />
+            <Parameter Name="ProjectName" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="ReturnValue" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spProjectUpdate">
+            <Parameter Name="ProjectId" Mode="In" Type="Int32" />
+            <Parameter Name="ClientId" Mode="In" Type="Int32" />
+            <Parameter Name="ProjectName" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="ReturnValue" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spTaskAdd">
+            <Parameter Name="ProjectId" Mode="In" Type="Int32" />
+            <Parameter Name="TaskName" Mode="In" Type="String" />
+            <Parameter Name="TaskDescription" Mode="In" Type="String" />
+            <Parameter Name="CreatedBy" Mode="In" Type="Int32" />
+            <Parameter Name="ReturnValue" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spTaskUpdate">
+            <Parameter Name="TaskId" Mode="In" Type="Int32" />
+            <Parameter Name="ProjectId" Mode="In" Type="Int32" />
+            <Parameter Name="TaskName" Mode="In" Type="String" />
+            <Parameter Name="TaskDescription" Mode="In" Type="String" />
+            <Parameter Name="UpdatedBy" Mode="In" Type="Int32" />
+            <Parameter Name="ReturnValue" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spUserAdd">
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="FullName" Mode="In" Type="String" />
+            <Parameter Name="Mobile" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="RoleId" Mode="In" Type="Int32" />
+            <Parameter Name="ReturnValue" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spUserUpdate">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="FullName" Mode="In" Type="String" />
+            <Parameter Name="Mobile" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="RoleId" Mode="In" Type="Int32" />
+            <Parameter Name="ReturnValue" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spValidateLogin" ReturnType="Collection(MossWorkLogDbModel.spValidateLogin_Result)">
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spWorkLogAdd">
+            <Parameter Name="TaskId" Mode="In" Type="Int32" />
+            <Parameter Name="CreatedById" Mode="In" Type="Int32" />
+            <Parameter Name="StartTime" Mode="In" Type="DateTime" />
+            <Parameter Name="EndTime" Mode="In" Type="DateTime" />
+            <Parameter Name="Duration" Mode="In" Type="Decimal" />
+            <Parameter Name="Unit" Mode="In" Type="Int32" />
+            <Parameter Name="AverageTime" Mode="In" Type="Decimal" />
+            <Parameter Name="ReturnValue" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spWorkLogUpdate">
+            <Parameter Name="WorkLogId" Mode="In" Type="Int32" />
+            <Parameter Name="TaskId" Mode="In" Type="Int32" />
+            <Parameter Name="CreatedById" Mode="In" Type="Int32" />
+            <Parameter Name="StartTime" Mode="In" Type="DateTime" />
+            <Parameter Name="EndTime" Mode="In" Type="DateTime" />
+            <Parameter Name="Duration" Mode="In" Type="Decimal" />
+            <Parameter Name="Unit" Mode="In" Type="Int32" />
+            <Parameter Name="AverageTime" Mode="In" Type="Decimal" />
+            <Parameter Name="ReturnValue" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="tblTasks" EntityType="MossWorkLogDbModel.tblTask" />
+          <EntitySet Name="tblTaskTicks" EntityType="MossWorkLogDbModel.tblTaskTick" />
+          <EntitySet Name="tblUserRoleAssigns" EntityType="MossWorkLogDbModel.tblUserRoleAssign" />
+          <EntitySet Name="PasswordResetRequests" EntityType="MossWorkLogDbModel.PasswordResetRequest" />
+          <EntitySet Name="tblMenus" EntityType="MossWorkLogDbModel.tblMenu" />
+          <EntitySet Name="tblUserLogs" EntityType="MossWorkLogDbModel.tblUserLog" />
+          <EntitySet Name="tblCategories" EntityType="MossWorkLogDbModel.tblCategory" />
+          <EntitySet Name="tblDocuments" EntityType="MossWorkLogDbModel.tblDocument" />
+          </EntityContainer>
+        <ComplexType Name="spCheckUserName_Result">
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Mobile" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="email" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Password" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="RoleId" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spGetClientList_Result">
+          <Property Type="Int32" Name="ClientId" Nullable="false" />
+          <Property Type="String" Name="ShortName" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="ClientName" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="spGetProjectList_Result">
+          <Property Type="Int32" Name="ProjectId" Nullable="false" />
+          <Property Type="Int32" Name="ClientId" Nullable="true" />
+          <Property Type="String" Name="ProjectName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Description" Nullable="true" />
+          <Property Type="String" Name="ClientName" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="spGetRoleList_Result">
+          <Property Type="Int32" Name="RoleId" Nullable="false" />
+          <Property Type="String" Name="RoleDesc" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="spGetTaskList_Result">
+          <Property Type="Int32" Name="TaskId" Nullable="false" />
+          <Property Type="Int32" Name="ProjectId" Nullable="true" />
+          <Property Type="String" Name="TaskName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="TaskDescription" Nullable="true" />
+          <Property Type="DateTime" Name="CreatedOn" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="CreatedBy" Nullable="true" />
+          <Property Type="Int32" Name="UpdatedBy" Nullable="true" />
+          <Property Type="DateTime" Name="UpdatedOn" Nullable="true" Precision="23" />
+          <Property Type="String" Name="ProjectName" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="spGetUserList_Result">
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Mobile" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="email" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Password" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="RoleId" Nullable="true" />
+          <Property Type="String" Name="RoleDesc" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="spGetWorkLogList_Result">
+          <Property Type="Int32" Name="WorkLogId" Nullable="false" />
+          <Property Type="Int32" Name="TaskId" Nullable="true" />
+          <Property Type="Int32" Name="CreatedById" Nullable="true" />
+          <Property Type="DateTime" Name="StartTime" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="EndTime" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="Duration" Nullable="true" Precision="6" Scale="2" />
+          <Property Type="Int32" Name="Unit" Nullable="true" />
+          <Property Type="Decimal" Name="AverageTime" Nullable="true" Precision="6" Scale="2" />
+          <Property Type="Int32" Name="SupApproval" Nullable="true" />
+          <Property Type="Int32" Name="SupReviewBy" Nullable="true" />
+          <Property Type="String" Name="SupRemark" Nullable="true" />
+          <Property Type="Int32" Name="SupSatisfaction" Nullable="true" />
+          <Property Type="Int32" Name="ManApproval" Nullable="true" />
+          <Property Type="Int32" Name="ManReviewBy" Nullable="true" />
+          <Property Type="String" Name="ManRemark" Nullable="true" />
+          <Property Type="Int32" Name="ManSatisfaction" Nullable="true" />
+          <Property Type="Int32" Name="ClientApproval" Nullable="true" />
+          <Property Type="Int32" Name="ClientReviewBy" Nullable="true" />
+          <Property Type="String" Name="ClientRemark" Nullable="true" />
+          <Property Type="Int32" Name="ClientSatisfaction" Nullable="true" />
+          <Property Type="String" Name="TaskName" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="ProjectId" Nullable="true" />
+          <Property Type="String" Name="ProjectName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CreatedByUserName" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="CreatedByFullName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="SupReviewByUserName" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="SupReviewByFullName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ManReviewByUserName" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="ManReviewByFullName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ClientReviewByUserName" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="ClientReviewByFullName" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="spValidateLogin_Result">
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Mobile" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="email" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Password" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="RoleId" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="tblTask">
+          <Key>
+            <PropertyRef Name="TaskId" />
+          </Key>
+          <Property Name="TaskId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectId" Type="Int32" />
+          <Property Name="TaskName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TaskDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="UpdatedBy" Type="Int32" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <Property Name="ClientId" Type="Int32" />
+          <Property Name="TaskFrequency" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="TaskTick" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="TaskStartDate" Type="DateTime" Precision="3" />
+          <Property Name="TaskEndDate" Type="DateTime" Precision="3" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblTaskTick">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TaskId" Type="Int32" />
+          <Property Name="TaskTick" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblUserRoleAssign">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="ClientId" Type="Int32" />
+          <Property Name="ProjectId" Type="Int32" />
+          <Property Name="TaskId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="PasswordResetRequest">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RequestId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="tblMenu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MainId" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="SubId" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="Lable" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Action" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Controller" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Area" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IconClass" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserRole" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SerialNo" Type="Int32" />
+          <Property Name="IsSub" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="tblUserLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="TimeLog" Type="DateTime" Precision="3" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CatId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tblDocument">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <Property Name="SubCategoryId" Type="Int32" Nullable="false" />
+          <Property Name="DocumentPath" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Descriptions" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MossWorkLogDbModelStoreContainer" CdmEntityContainer="MossWorkLogDbEntities">
+          <EntitySetMapping Name="tblClients">
+            <EntityTypeMapping TypeName="MossWorkLogDbModel.tblClient">
+              <MappingFragment StoreEntitySet="tblClient">
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="ClientName" ColumnName="ClientName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblProjects">
+            <EntityTypeMapping TypeName="MossWorkLogDbModel.tblProject">
+              <MappingFragment StoreEntitySet="tblProject">
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblRoles">
+            <EntityTypeMapping TypeName="MossWorkLogDbModel.tblRole">
+              <MappingFragment StoreEntitySet="tblRole">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="RoleDesc" ColumnName="RoleDesc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblUsers">
+            <EntityTypeMapping TypeName="MossWorkLogDbModel.tblUser">
+              <MappingFragment StoreEntitySet="tblUsers">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblWorkLogs">
+            <EntityTypeMapping TypeName="MossWorkLogDbModel.tblWorkLog">
+              <MappingFragment StoreEntitySet="tblWorkLog">
+                <ScalarProperty Name="WorkLogId" ColumnName="WorkLogId" />
+                <ScalarProperty Name="TaskId" ColumnName="TaskId" />
+                <ScalarProperty Name="CreatedById" ColumnName="CreatedById" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="AverageTime" ColumnName="AverageTime" />
+                <ScalarProperty Name="SupApproval" ColumnName="SupApproval" />
+                <ScalarProperty Name="SupReviewBy" ColumnName="SupReviewBy" />
+                <ScalarProperty Name="SupRemark" ColumnName="SupRemark" />
+                <ScalarProperty Name="SupSatisfaction" ColumnName="SupSatisfaction" />
+                <ScalarProperty Name="ManApproval" ColumnName="ManApproval" />
+                <ScalarProperty Name="ManReviewBy" ColumnName="ManReviewBy" />
+                <ScalarProperty Name="ManRemark" ColumnName="ManRemark" />
+                <ScalarProperty Name="ManSatisfaction" ColumnName="ManSatisfaction" />
+                <ScalarProperty Name="ClientApproval" ColumnName="ClientApproval" />
+                <ScalarProperty Name="ClientReviewBy" ColumnName="ClientReviewBy" />
+                <ScalarProperty Name="ClientRemark" ColumnName="ClientRemark" />
+                <ScalarProperty Name="ClientSatisfaction" ColumnName="ClientSatisfaction" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spCheckUserName" FunctionName="MossWorkLogDbModel.Store.spCheckUserName">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spClientAdd" FunctionName="MossWorkLogDbModel.Store.spClientAdd" />
+          <FunctionImportMapping FunctionImportName="spClientUpdate" FunctionName="MossWorkLogDbModel.Store.spClientUpdate" />
+          <FunctionImportMapping FunctionImportName="spGetClientList" FunctionName="MossWorkLogDbModel.Store.spGetClientList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MossWorkLogDbModel.spGetClientList_Result">
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="ClientName" ColumnName="ClientName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spGetProjectList" FunctionName="MossWorkLogDbModel.Store.spGetProjectList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MossWorkLogDbModel.spGetProjectList_Result">
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ClientName" ColumnName="ClientName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spGetRoleList" FunctionName="MossWorkLogDbModel.Store.spGetRoleList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MossWorkLogDbModel.spGetRoleList_Result">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="RoleDesc" ColumnName="RoleDesc" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spGetTaskList" FunctionName="MossWorkLogDbModel.Store.spGetTaskList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MossWorkLogDbModel.spGetTaskList_Result">
+                <ScalarProperty Name="TaskId" ColumnName="TaskId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
+                <ScalarProperty Name="TaskDescription" ColumnName="TaskDescription" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spGetUserList" FunctionName="MossWorkLogDbModel.Store.spGetUserList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MossWorkLogDbModel.spGetUserList_Result">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="RoleDesc" ColumnName="RoleDesc" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spGetWorkLogList" FunctionName="MossWorkLogDbModel.Store.spGetWorkLogList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MossWorkLogDbModel.spGetWorkLogList_Result">
+                <ScalarProperty Name="WorkLogId" ColumnName="WorkLogId" />
+                <ScalarProperty Name="TaskId" ColumnName="TaskId" />
+                <ScalarProperty Name="CreatedById" ColumnName="CreatedById" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="AverageTime" ColumnName="AverageTime" />
+                <ScalarProperty Name="SupApproval" ColumnName="SupApproval" />
+                <ScalarProperty Name="SupReviewBy" ColumnName="SupReviewBy" />
+                <ScalarProperty Name="SupRemark" ColumnName="SupRemark" />
+                <ScalarProperty Name="SupSatisfaction" ColumnName="SupSatisfaction" />
+                <ScalarProperty Name="ManApproval" ColumnName="ManApproval" />
+                <ScalarProperty Name="ManReviewBy" ColumnName="ManReviewBy" />
+                <ScalarProperty Name="ManRemark" ColumnName="ManRemark" />
+                <ScalarProperty Name="ManSatisfaction" ColumnName="ManSatisfaction" />
+                <ScalarProperty Name="ClientApproval" ColumnName="ClientApproval" />
+                <ScalarProperty Name="ClientReviewBy" ColumnName="ClientReviewBy" />
+                <ScalarProperty Name="ClientRemark" ColumnName="ClientRemark" />
+                <ScalarProperty Name="ClientSatisfaction" ColumnName="ClientSatisfaction" />
+                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="CreatedByUserName" ColumnName="CreatedByUserName" />
+                <ScalarProperty Name="CreatedByFullName" ColumnName="CreatedByFullName" />
+                <ScalarProperty Name="SupReviewByUserName" ColumnName="SupReviewByUserName" />
+                <ScalarProperty Name="SupReviewByFullName" ColumnName="SupReviewByFullName" />
+                <ScalarProperty Name="ManReviewByUserName" ColumnName="ManReviewByUserName" />
+                <ScalarProperty Name="ManReviewByFullName" ColumnName="ManReviewByFullName" />
+                <ScalarProperty Name="ClientReviewByUserName" ColumnName="ClientReviewByUserName" />
+                <ScalarProperty Name="ClientReviewByFullName" ColumnName="ClientReviewByFullName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spProjectAdd" FunctionName="MossWorkLogDbModel.Store.spProjectAdd" />
+          <FunctionImportMapping FunctionImportName="spProjectUpdate" FunctionName="MossWorkLogDbModel.Store.spProjectUpdate" />
+          <FunctionImportMapping FunctionImportName="spTaskAdd" FunctionName="MossWorkLogDbModel.Store.spTaskAdd" />
+          <FunctionImportMapping FunctionImportName="spTaskUpdate" FunctionName="MossWorkLogDbModel.Store.spTaskUpdate" />
+          <FunctionImportMapping FunctionImportName="spUserAdd" FunctionName="MossWorkLogDbModel.Store.spUserAdd" />
+          <FunctionImportMapping FunctionImportName="spUserUpdate" FunctionName="MossWorkLogDbModel.Store.spUserUpdate" />
+          <FunctionImportMapping FunctionImportName="spValidateLogin" FunctionName="MossWorkLogDbModel.Store.spValidateLogin">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MossWorkLogDbModel.spValidateLogin_Result">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spWorkLogAdd" FunctionName="MossWorkLogDbModel.Store.spWorkLogAdd" />
+          <FunctionImportMapping FunctionImportName="spWorkLogUpdate" FunctionName="MossWorkLogDbModel.Store.spWorkLogUpdate" />
+          <EntitySetMapping Name="tblTasks">
+            <EntityTypeMapping TypeName="MossWorkLogDbModel.tblTask">
+              <MappingFragment StoreEntitySet="tblTask">
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="TaskEndDate" ColumnName="TaskEndDate" />
+                <ScalarProperty Name="TaskStartDate" ColumnName="TaskStartDate" />
+                <ScalarProperty Name="TaskTick" ColumnName="TaskTick" />
+                <ScalarProperty Name="TaskFrequency" ColumnName="TaskFrequency" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="TaskDescription" ColumnName="TaskDescription" />
+                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="TaskId" ColumnName="TaskId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblTaskTicks">
+            <EntityTypeMapping TypeName="MossWorkLogDbModel.tblTaskTick">
+              <MappingFragment StoreEntitySet="tblTaskTick">
+                <ScalarProperty Name="TaskTick" ColumnName="TaskTick" />
+                <ScalarProperty Name="TaskId" ColumnName="TaskId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblUserRoleAssigns">
+            <EntityTypeMapping TypeName="MossWorkLogDbModel.tblUserRoleAssign">
+              <MappingFragment StoreEntitySet="tblUserRoleAssign">
+                <ScalarProperty Name="TaskId" ColumnName="TaskId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PasswordResetRequests">
+            <EntityTypeMapping TypeName="MossWorkLogDbModel.PasswordResetRequest">
+              <MappingFragment StoreEntitySet="PasswordResetRequests">
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="RequestId" ColumnName="RequestId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblMenus">
+            <EntityTypeMapping TypeName="MossWorkLogDbModel.tblMenu">
+              <MappingFragment StoreEntitySet="tblMenu">
+                <ScalarProperty Name="IsSub" ColumnName="IsSub" />
+                <ScalarProperty Name="SerialNo" ColumnName="SerialNo" />
+                <ScalarProperty Name="UserRole" ColumnName="UserRole" />
+                <ScalarProperty Name="IconClass" ColumnName="IconClass" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="Controller" ColumnName="Controller" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="Lable" ColumnName="Lable" />
+                <ScalarProperty Name="SubId" ColumnName="SubId" />
+                <ScalarProperty Name="MainId" ColumnName="MainId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblUserLogs">
+            <EntityTypeMapping TypeName="MossWorkLogDbModel.tblUserLog">
+              <MappingFragment StoreEntitySet="tblUserLog">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="TimeLog" ColumnName="TimeLog" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblCategories">
+            <EntityTypeMapping TypeName="MossWorkLogDbModel.tblCategory">
+              <MappingFragment StoreEntitySet="tblCategory">
+                <ScalarProperty Name="CatId" ColumnName="CatId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblDocuments">
+            <EntityTypeMapping TypeName="MossWorkLogDbModel.tblDocument">
+              <MappingFragment StoreEntitySet="tblDocuments">
+                <ScalarProperty Name="Descriptions" ColumnName="Descriptions" />
+                <ScalarProperty Name="DocumentPath" ColumnName="DocumentPath" />
+                <ScalarProperty Name="SubCategoryId" ColumnName="SubCategoryId" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

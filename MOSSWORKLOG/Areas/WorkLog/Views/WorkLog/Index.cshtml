@@ -1,0 +1,134 @@
+﻿@model MOSSWORKLOG.Areas.WorkLog.Models.WorkLogViewModel
+
+@section Styles {
+    <link href="~/assets/plugins/select2/css/select2.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css"/>
+}
+
+@{
+    Layout = "~/Areas/WorkLog/Views/Shared/_Layout.cshtml";
+}
+                    
+    <!--Start Page Title-->
+    <div class="page-title-box">
+        <h4 class="page-title">WorkLog</h4>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new { area = "" })">Home</a>
+            </li>
+
+            <li class="active">
+                WorkLog
+            </li>
+        </ol>
+        <div class="clearfix"></div>
+    </div>
+    <!--End Page Title-->
+
+    <a class="aAddWorkLog btn btn-info" data-toggle="modal" href="#">
+        <i class="fa fa-plus"></i> Add WorkLog
+    </a>
+    
+    <!--Start row-->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="white-box">
+                <div class="table-responsive">
+                    <table id="tblDatatable" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th> Project Name </th>
+                                <th> Task Name </th>
+                                <th> Start Time </th>
+                                <th> End Time </th>
+                                <th> Duration (Hours) </th>
+                                <th> Unit </th>
+                                <th> Average Time (Minutes) </th>
+                                <th style="width:10%"> Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var worklog in Model.WorkLogs)
+                            {
+                                <tr>
+                                    <td >@worklog.ProjectName</td>
+                                    <td >@worklog.TaskName</td>
+                                    <td> @worklog.StartTime</td>
+                                    <td> @worklog.EndTime </td>
+                                    <td> @worklog.Duration.Value.ToString("0.00") </td>
+                                    <td> @worklog.Unit </td>
+                                    <td> @worklog.AverageTime </td>
+                                    <td style="width:10%">
+                                        <a data-id=@worklog.WorkLogId class="aEditWorkLog btn btn-primary" title="Edit WorkLog">
+                                            <span class="fa fa-edit"></span>
+                                        </a>
+                                        <a data-id=@worklog.WorkLogId class="aRemoveWorkLog btn btn-danger" data-placement="top" data-toggle="confirmation" data-title="Remove?, Sure??">
+                                            <span class="fa fa-remove"></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End row-->
+
+
+<div id="space"> </div>
+
+@section Scripts {
+    <script src="~/assets/plugins/select2/js/select2.js"></script>
+    <script src="~/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+                
+            $(".aAddWorkLog").click(function () {
+                var url = window.g_baseUrl + "WorkLog/WorkLog/ViewWorkLog/";
+                $('#space').load(url, function () {
+                    $('#modelWorkLog').modal('show');
+                    $('.datetimepicker').datetimepicker({
+                        autoclose: true
+                    });
+
+                    $(".select2").select2({
+                        dropdownParent: $('#modelWorkLog'),
+                        placeholder: "Select a Task",
+                        allowClear: true
+                    });
+                });
+            });
+          
+            $(".aRemoveWorkLog").click(function () {
+                var url = window.g_baseUrl + "WorkLog/WorkLog/DeleteWorkLog/";
+                url = url + $(this).data("id");
+                location.href = url;
+            });
+
+            $(".aEditWorkLog").click(function () {
+                var url = window.g_baseUrl + "WorkLog/WorkLog/ViewWorkLog/";
+                url = url + $(this).data("id");
+                $('#space').load(url, function () {
+                    $('#modelWorkLog').modal('show');
+
+                    $('.datetimepicker').each(function () {
+                        $(this).datetimepicker({
+                            autoclose: true
+                        });
+                        //var date = new Date(this.value.substr(6, 4), this.value.substr(3, 2), this.value.substr(0, 2), this.value.substr(11, 2), this.value.substr(14, 2));
+                        //$(this).val(date.toDateString());
+                        //2018-01-15 05:25
+                    });
+
+                    $(".select2").select2({
+                        dropdownParent: $('#modelWorkLog'),
+                        placeholder: "Select a Task",
+                        allowClear: true
+                    });
+                });
+            });
+        });
+    </script>
+}

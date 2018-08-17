@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "VISITOR LOG";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    @RenderSection("styles", required: false)
+}
+
+<div class="content-main container">
+
+    @RenderBody()
+
+</div>
+
+@section scripts{
+    @RenderSection("scripts", required: false)
+}

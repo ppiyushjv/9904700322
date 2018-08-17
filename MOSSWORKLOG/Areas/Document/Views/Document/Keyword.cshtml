@@ -1,0 +1,92 @@
+﻿@model MOSSWORKLOG.Areas.Document.Models.KeywordViewModel
+
+@{
+    Layout = "~/Areas/Document/Views/Shared/_Layout.cshtml";
+}
+
+<!--Start Page Title-->
+<div class="page-title-box">
+    <h4 class="page-title">Keyword</h4>
+    <ol class="breadcrumb">
+        <li>
+            <a href="@Url.Action("Index", "Home", new { area = "" })">Home</a>
+        </li>
+
+        <li class="active">
+            Keyword
+        </li>
+    </ol>
+    <div class="clearfix"></div>
+</div>
+<!--End Page Title-->
+
+<a class="aAddKeyword btn btn-info" data-toggle="modal" href="#" accesskey="a">
+    <i class="fa fa-plus"></i> Add Keyword
+</a>
+    
+<!--Start row-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="white-box">
+            <div class="table-responsive">
+                <table id="tblDatatable" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th> Name </th>
+                            <th style="width:10%"> Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var keyword in Model.KeyWords)
+                        {
+                            <tr>
+                                <td> @keyword.KeyWordName </td>
+                                <td style="width:10%">
+                                    <a data-id=@keyword.Id class="aEditKeyword btn btn-primary" title="Edit Category">
+                                        <span class="fa fa-edit"></span>
+                                    </a>
+                                    <a data-id=@keyword.Id class="aRemoveKeyword btn btn-danger" title="Delete Keyword" data-placement="left" data-toggle="confirmation" data-title="Remove?, Sure??">
+                                        <span class="fa fa-remove"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End row-->
+
+<div id="space"> </div>
+
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $(".aAddKeyword").click(function () {
+                var url = window.g_baseUrl + "Document/Document/ViewKeyword/";
+                $('#space').load(url, function () {
+                    $('#modelKeyword').modal('show');
+                });
+            });
+           
+            $(".aRemoveKeyword").click(function () {
+                var url = window.g_baseUrl + "Document/Document/DeleteKeyword/";
+                url = url + $(this).data("id");
+                location.href = url;
+            });
+
+            $(".aEditKeyword").click(function () {
+                var url = window.g_baseUrl + "Document/Document/ViewKeyword/";
+                url = url + $(this).data("id");
+                $('#space').load(url, function () {
+                    $('#modelKeyword').modal('show');
+                });
+            });
+        });
+    </script>
+}
