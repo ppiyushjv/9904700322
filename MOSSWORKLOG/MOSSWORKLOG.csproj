@@ -256,6 +256,7 @@
     <Content Include="assets\plugins\toast-notification\toastr.min.css" />
     <Content Include="assets\plugins\toast-notification\toastr.min.js" />
     <Content Include="Global.asax" />
+    <Content Include="SQL\SQL.sql" />
     <Content Include="Views\Shared\_layout.cshtml" />
     <Content Include="Areas\Client\Views\Client\Index.cshtml" />
     <Content Include="assets\plugins\datatables\images\Sorting icons.psd" />
